@@ -10,10 +10,14 @@ GoogleSignin.configure({
 
 async function onGoogleButtonPress() {
   // Get the users ID token
-  const {idToken} = await GoogleSignin.signIn();
+  await GoogleSignin.signIn();
+  const {idToken, accessToken} = await GoogleSignin.getTokens();
 
   // Create a Google credential with the token
-  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+  const googleCredential = auth.GoogleAuthProvider.credential(
+    idToken,
+    accessToken,
+  );
 
   // Sign-in the user with the credential
   return auth().signInWithCredential(googleCredential);
@@ -26,9 +30,9 @@ const App = () => {
 
   // Handle user state changes
   function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
-    console.log(user);
+    setInitializing(true);
     setUser(user);
-    if (initializing) setInitializing(false);
+    setInitializing(false);
   }
 
   useEffect(() => {
@@ -43,11 +47,11 @@ const App = () => {
       return (
         <Button
           title="Google sign-in"
-          onPress={() =>
+          onPress={() => {
             onGoogleButtonPress().then(() =>
               console.log('Signed in with Google!'),
-            )
-          }
+            );
+          }}
         />
       );
     } else {
