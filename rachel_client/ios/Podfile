@@ -47,6 +47,7 @@ end
 target 'rachel_client' do
   # Pods for rachel_client
   pod 'Firebase/Analytics'
+  pod 'GoogleSignIn'
   
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
@@ -78,6 +79,8 @@ target 'rachel_client' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
 
   target 'rachel_clientTests' do
     inherit! :complete
