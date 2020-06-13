@@ -3,6 +3,34 @@ import {Text, Button, SafeAreaView} from 'react-native';
 import Config from 'react-native-config';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-community/google-signin';
+import {LoginManager, AccessToken} from 'react-native-fbsdk';
+
+async function onFacebookButtonPress() {
+  // Attempt login with permissions
+  const result = await LoginManager.logInWithPermissions([
+    'public_profile',
+    'email',
+  ]);
+
+  if (result.isCancelled) {
+    throw 'User cancelled the login process';
+  }
+
+  // Once signed in, get the users AccesToken
+  const data = await AccessToken.getCurrentAccessToken();
+
+  if (!data) {
+    throw 'Something went wrong obtaining access token';
+  }
+
+  // Create a Firebase credential with the AccessToken
+  const facebookCredential = auth.FacebookAuthProvider.credential(
+    data.accessToken,
+  );
+
+  // Sign-in the user with the credential
+  return auth().signInWithCredential(facebookCredential);
+}
 
 GoogleSignin.configure({
   webClientId: Config.WEB_CLIENT_ID,
@@ -45,14 +73,24 @@ const App = () => {
       return <Text>Initializing...</Text>;
     } else if (!user) {
       return (
-        <Button
-          title="Google sign-in"
-          onPress={() => {
-            onGoogleButtonPress().then(() =>
-              console.log('Signed in with Google!'),
-            );
-          }}
-        />
+        <>
+          <Button
+            title="Google sign-in"
+            onPress={() => {
+              onGoogleButtonPress().then(() =>
+                console.log('Signed in with Google!'),
+              );
+            }}
+          />
+          <Button
+            title="Facebook sign-in"
+            onPress={() => {
+              onFacebookButtonPress().then(() =>
+                console.log('Signed in with Facebook!'),
+              );
+            }}
+          />
+        </>
       );
     } else {
       return <Text>Welcome {user.displayName}!</Text>;
