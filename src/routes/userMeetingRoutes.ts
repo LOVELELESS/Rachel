@@ -6,6 +6,45 @@ import IMeeting from "../interfaces/IMeeting";
 const userMeetingRoutes = express.Router();
 
 /*
+    GETS EXISTING MEETING
+
+    req.body 
+        - workspaceName : string
+        - userid : string
+    res.data 
+        - msg : string
+        - meeting : Array<IMeeting>
+        - success : boolean
+*/
+userMeetingRoutes.get("/", (req, res) => {
+  const {
+    workspaceName,
+    userid,
+  }: {
+    workspaceName: string;
+    userid: string;
+  } = req.body;
+
+  WorkspaceModel.findOne({ workspaceName, "users.userid": userid })
+    .then((workspace) => {
+      if (workspace) {
+        return res.json({
+          msg: `Successfully retrieved ${userid}'s meetings`,
+          meetings: workspace.users.filter((user) => user.userid === userid)[0]
+            .meetings,
+          success: true,
+        });
+      } else {
+        return res.json({
+          msg: "Cannot find data matching the workspaceName, userid",
+          success: false,
+        });
+      }
+    })
+    .catch((err) => res.json({ msg: "An error has occurred", success: false }));
+});
+
+/*
     DELETES EXISTING MEETING
 
     req.body 
