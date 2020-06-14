@@ -1,62 +1,108 @@
 import express from "express";
-import UserModel from "../models/User";
+import WorkspaceModel from "../models/Workspace";
 const authRoutes = express.Router();
 
 /*
     req.body 
-        - userid
+        - userid : string
     res.data 
         - isVerified?: boolean,
         - error: boolean     
 */
 authRoutes.post("/login", (req, res) => {
-  const { userid } = req.body;
-  UserModel.findOne({ userid })
-    .then((user) => {
-      if (user) {
-        return res.json({
+  const { userid }: { userid: string } = req.body;
+  WorkspaceModel.findOne({ "users.userid": userid })
+    .then((workspace) => {
+      if (workspace) {
+        res.json({
+          msg: "Found user",
           isVerified: true,
           error: false,
         });
       } else {
-        return res.json({
+        res.json({
+          msg: "User not found",
           isVerified: false,
           error: false,
         });
       }
     })
-    .catch((err) => {
-      console.log(err);
-      return res.json({
-        error: true,
-      });
-    });
+    .catch((err) => res.json({ msg: "An error has occurred", error: true }));
 });
 
 /*
     req.body 
-        - userid
-        - workspaceName
+        - userid : string
+        - workspaceName : string
     res.data 
-        - isSaved?: boolean,
+        - msg : string
         - error: boolean     
 */
 authRoutes.post("/link_workspace", (req, res) => {
-  const { userid, workspaceName } = req.body;
-  const newUser = new UserModel({ userid, workspaceName, meetings: [] });
-  newUser.save((err) => {
-    if (err) {
-      return res.json({
-        error: true,
+  const {
+    userid,
+    workspaceName,
+  }: { userid: string; workspaceName: string } = req.body;
+  WorkspaceModel.findOne({ workspaceName })
+    .then((workspace) => {
+      if (workspace) {
+        workspace.users.push({
+          userid,
+          meetings: [],
+        });
+        workspace.save((err) => {
+          if (err) {
+            res.json({
+              msg: "An error has occured when saving new user",
+              error: true,
+            });
+          } else {
+            res.json({
+              msg: `Successfully saved new user to workspace ${workspaceName}`,
+              error: false,
+            });
+          }
+        });
+      } else {
+        // create new workspace
+        const newWorkspace = new WorkspaceModel({
+          workspaceName,
+          users: [{ userid, meetings: [] }],
+        });
+        newWorkspace.save((err) => {
+          if (err) {
+            res.json({
+              msg: `An error has occured when saving new user to new workspace ${workspaceName}`,
+              error: true,
+            });
+          } else {
+            res.json({
+              msg: `Successfully saved new user to new workspace ${workspaceName}`,
+              error: false,
+            });
+          }
+        });
+      }
+    })
+    .catch((err) => res.json({ msg: "An error is occurred", error: true }));
+});
+
+/*
+authRoutes.post("/test", (req, res) => {
+  const newWorkspace = new WorkspaceModel({
+    workspaceName: "testWorkSpaceName",
+    users: [{ userid: "testUserId", meetings: [] }],
+    meetings: [],
+  });
+  newWorkspace.save((err, ws) => {
+    if (err) res.json({ msg: "failed", err });
+    else
+      res.json({
+        msg: "success",
+        workspace: ws,
       });
-    } else {
-      // saved!
-      return res.json({
-        isSaved: true,
-        error: false,
-      });
-    }
   });
 });
+*/
 
 export default authRoutes;

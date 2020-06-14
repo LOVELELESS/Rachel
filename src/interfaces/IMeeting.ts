@@ -1,4 +1,3 @@
-import { Document } from "mongoose";
 import IMeetingParticipant from "./IMeetingParticipant";
 
 interface IMeeting {

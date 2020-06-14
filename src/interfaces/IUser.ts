@@ -1,9 +1,7 @@
-import { Document } from "mongoose";
 import IMeeting from "./IMeeting";
 
-interface IUser extends Document {
+interface IUser {
   userid: string;
-  workspaceName: string;
   meetings: Array<IMeeting>;
 }
 
