@@ -9,8 +9,7 @@ const authRoutes = express.Router();
         - userid : string
     res.data 
         - msg : string
-        - isVerified ?: boolean,
-        - error : boolean     
+        - success : boolean     
 */
 authRoutes.post("/login", (req, res) => {
   const { userid }: { userid: string } = req.body;
@@ -19,18 +18,16 @@ authRoutes.post("/login", (req, res) => {
       if (workspace) {
         return res.json({
           msg: "Found user",
-          isVerified: true,
-          error: false,
+          success: true,
         });
       } else {
         return res.json({
           msg: "User not found",
-          isVerified: false,
-          error: false,
+          success: false,
         });
       }
     })
-    .catch((err) => res.json({ msg: "An error has occurred", error: true }));
+    .catch((err) => res.json({ msg: "An error has occurred", success: false }));
 });
 
 /*
@@ -39,7 +36,7 @@ authRoutes.post("/login", (req, res) => {
         - workspaceName : string
     res.data 
         - msg : string
-        - error: boolean     
+        - success : boolean     
 */
 authRoutes.post("/link_workspace", (req, res) => {
   const {
@@ -58,12 +55,12 @@ authRoutes.post("/link_workspace", (req, res) => {
           if (err) {
             return res.json({
               msg: "An error has occured when saving new user",
-              error: true,
+              success: false,
             });
           } else {
             return res.json({
               msg: `Successfully saved new user to workspace ${workspaceName}`,
-              error: false,
+              success: true,
             });
           }
         });
@@ -77,18 +74,18 @@ authRoutes.post("/link_workspace", (req, res) => {
           if (err) {
             return res.json({
               msg: `An error has occured when saving new user to new workspace ${workspaceName}`,
-              error: true,
+              success: false,
             });
           } else {
             return res.json({
               msg: `Successfully saved new user to new workspace ${workspaceName}`,
-              error: false,
+              success: true,
             });
           }
         });
       }
     })
-    .catch((err) => res.json({ msg: "An error is occurred", error: true }));
+    .catch((err) => res.json({ msg: "An error is occurred", success: false }));
 });
 
 /*

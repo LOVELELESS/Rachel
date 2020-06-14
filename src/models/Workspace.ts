@@ -9,6 +9,7 @@ const WorkspaceSchema = new Schema({
       userid: String,
       meetings: [
         {
+          meetingid: String,
           title: String,
           description: String,
           participants: [
@@ -28,6 +29,7 @@ const WorkspaceSchema = new Schema({
   ],
   meetings: [
     {
+      meetingid: String,
       title: String,
       description: String,
       participants: [

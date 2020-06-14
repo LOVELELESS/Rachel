@@ -27,9 +27,9 @@ userMeetingRoutes.get("/", (req, res) => {
         - date: Date
     res.data 
         - msg : string
-        - error : boolean     
+        - success : boolean
 */
-userMeetingRoutes.post("/new", (req, res) => {
+userMeetingRoutes.post("/:meetingid", (req, res) => {
   const {
     workspaceName,
     userid,
@@ -46,7 +46,95 @@ userMeetingRoutes.post("/new", (req, res) => {
     date: Date;
   } = req.body;
 
+  const meetingid: string = req.params.meetingid;
+
   const newMeeting: IMeeting = {
+    meetingid,
+    title,
+    description,
+    participants,
+    date,
+  };
+
+  WorkspaceModel.findOne({
+    workspaceName,
+    "users.userid": userid,
+    "meetings.meetingid": meetingid,
+  })
+    .then((workspace) => {
+      if (workspace) {
+        // replace in workspace meetings arr
+        let replaceIndx = workspace.meetings.findIndex(
+          (meeting) => meeting.meetingid === meetingid
+        );
+        workspace.meetings[replaceIndx] = newMeeting;
+
+        // replace in user meetings arr
+        const userMeetingsArr = workspace.users.filter(
+          (user) => user.userid === userid
+        )[0].meetings;
+        replaceIndx = userMeetingsArr.findIndex(
+          (meeting) => meeting.meetingid === meetingid
+        );
+        userMeetingsArr[replaceIndx] = newMeeting;
+        workspace.save((err) => {
+          if (err) {
+            return res.json({
+              msg: "An error has occurred while updating meeting",
+              success: false,
+            });
+          } else {
+            return res.json({
+              msg: `Successfully updated meeting ${meetingid} in ${workspaceName}`,
+              success: true,
+            });
+          }
+        });
+      } else {
+        return res.json({
+          msg:
+            "Cannot find data matching the workspaceName, userid, and meetingid",
+          success: false,
+        });
+      }
+    })
+    .catch((err) => res.json({ msg: "An error has occurred", success: false }));
+});
+
+/*
+    req.body 
+        - workspaceName : string
+        - userid : string
+        - meetingid : string
+        - title : string
+        - description : string
+        - participants : Array<IMeetingParticipant>
+        - date: Date
+    res.data 
+        - msg : string
+        - success : boolean     
+*/
+userMeetingRoutes.post("/", (req, res) => {
+  const {
+    workspaceName,
+    userid,
+    meetingid,
+    title,
+    description,
+    participants,
+    date,
+  }: {
+    workspaceName: string;
+    userid: string;
+    meetingid: string;
+    title: string;
+    description: string;
+    participants: Array<IMeetingParticipant>;
+    date: Date;
+  } = req.body;
+
+  const newMeeting: IMeeting = {
+    meetingid,
     title,
     description,
     participants,
@@ -70,24 +158,23 @@ userMeetingRoutes.post("/new", (req, res) => {
           if (err) {
             return res.json({
               msg: "An error has occurred while saving new meeting",
-              error: true,
+              success: false,
             });
           } else {
             return res.json({
               msg: "Successfully saved new meeting",
-              error: false,
+              success: true,
             });
           }
         });
       } else {
         return res.json({
-          msg:
-            "Cannot find workspace / user matching the workspaceName and userid",
-          error: false,
+          msg: "Cannot find data matching the workspaceName and userid",
+          success: false,
         });
       }
     })
-    .catch((err) => res.json({ msg: "An error has occurred", error: true }));
+    .catch((err) => res.json({ msg: "An error has occurred", success: false }));
 });
 
 export default userMeetingRoutes;
