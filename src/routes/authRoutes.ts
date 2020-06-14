@@ -43,7 +43,7 @@ authRoutes.post("/login", (req, res) => {
 */
 authRoutes.post("/link_workspace", (req, res) => {
   const { userid, workspaceName } = req.body;
-  const newUser = new UserModel({ userid, workspaceName });
+  const newUser = new UserModel({ userid, workspaceName, meetings: [] });
   newUser.save((err) => {
     if (err) {
       return res.json({

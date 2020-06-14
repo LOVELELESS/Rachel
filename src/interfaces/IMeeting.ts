@@ -1,9 +1,10 @@
-import IMeetingParticipants from "./IMeetingParticipant";
+import { Document } from "mongoose";
+import IMeetingParticipant from "./IMeetingParticipant";
 
 interface IMeeting {
   title: string;
   description: string;
-  participants: Array<IMeetingParticipants>;
+  participants: Array<IMeetingParticipant>;
   date: Date;
 }
 
