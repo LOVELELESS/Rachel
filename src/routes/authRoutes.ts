@@ -2,12 +2,6 @@ import express from "express";
 import UserModel from "../models/User";
 const authRoutes = express.Router();
 
-authRoutes.get("/", (req, res) => {
-  res.json({
-    msg: "Hello World!",
-  });
-});
-
 /*
     req.body 
         - userid
