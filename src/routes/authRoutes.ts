@@ -1,5 +1,6 @@
 import express from "express";
 import WorkspaceModel from "../models/Workspace";
+import IUser from "../interfaces/IUser";
 const authRoutes = express.Router();
 
 /*
@@ -45,11 +46,12 @@ authRoutes.post("/link_workspace", (req, res) => {
   }: { userid: string; workspaceName: string } = req.body;
   WorkspaceModel.findOne({ workspaceName })
     .then((workspace) => {
+      const newUser: IUser = {
+        userid,
+        meetings: [],
+      };
       if (workspace) {
-        workspace.users.push({
-          userid,
-          meetings: [],
-        });
+        workspace.users.push(newUser);
         workspace.save((err) => {
           if (err) {
             res.json({
@@ -67,7 +69,7 @@ authRoutes.post("/link_workspace", (req, res) => {
         // create new workspace
         const newWorkspace = new WorkspaceModel({
           workspaceName,
-          users: [{ userid, meetings: [] }],
+          users: [newUser],
         });
         newWorkspace.save((err) => {
           if (err) {
