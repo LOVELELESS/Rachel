@@ -1,6 +1,7 @@
 import express from "express";
 import WorkspaceModel from "../models/Workspace";
 import IUser from "../interfaces/IUser";
+
 const authRoutes = express.Router();
 
 /*

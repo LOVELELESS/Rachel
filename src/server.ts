@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 const app = express();
 const PORT = process.env.PORT || 3000;
 import authRoutes from "./routes/authRoutes";
+import workspaceRoutes from "./routes/workspaceRoutes";
 
 mongoose
   .connect(process.env.MONGODB_URI as string, {
@@ -16,5 +17,6 @@ mongoose
 
 app.use(express.json());
 app.use("/auth", authRoutes);
+app.use("/workspaces", workspaceRoutes);
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}!`));
