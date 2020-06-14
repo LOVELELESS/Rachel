@@ -8,21 +8,22 @@ const authRoutes = express.Router();
     req.body 
         - userid : string
     res.data 
-        - isVerified?: boolean,
-        - error: boolean     
+        - msg : string
+        - isVerified ?: boolean,
+        - error : boolean     
 */
 authRoutes.post("/login", (req, res) => {
   const { userid }: { userid: string } = req.body;
   WorkspaceModel.findOne({ "users.userid": userid })
     .then((workspace) => {
       if (workspace) {
-        res.json({
+        return res.json({
           msg: "Found user",
           isVerified: true,
           error: false,
         });
       } else {
-        res.json({
+        return res.json({
           msg: "User not found",
           isVerified: false,
           error: false,
@@ -55,12 +56,12 @@ authRoutes.post("/link_workspace", (req, res) => {
         workspace.users.push(newUser);
         workspace.save((err) => {
           if (err) {
-            res.json({
+            return res.json({
               msg: "An error has occured when saving new user",
               error: true,
             });
           } else {
-            res.json({
+            return res.json({
               msg: `Successfully saved new user to workspace ${workspaceName}`,
               error: false,
             });
@@ -74,12 +75,12 @@ authRoutes.post("/link_workspace", (req, res) => {
         });
         newWorkspace.save((err) => {
           if (err) {
-            res.json({
+            return res.json({
               msg: `An error has occured when saving new user to new workspace ${workspaceName}`,
               error: true,
             });
           } else {
-            res.json({
+            return res.json({
               msg: `Successfully saved new user to new workspace ${workspaceName}`,
               error: false,
             });

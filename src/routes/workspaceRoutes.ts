@@ -3,7 +3,14 @@ import userRoutes from "./userRoutes";
 import meetingRoutes from "./meetingRoutes";
 
 const workspaceRoutes = express.Router();
-workspaceRoutes.use("/users", userRoutes);
-workspaceRoutes.use("/meetings", meetingRoutes);
+workspaceRoutes.use(
+  "/:workspaceName/users",
+  (req, res, next) => {
+    req.body.workspaceName = req.params.workspaceName;
+    next();
+  },
+  userRoutes
+);
+workspaceRoutes.use("/:workspaceName/meetings", meetingRoutes);
 
 export default workspaceRoutes;
