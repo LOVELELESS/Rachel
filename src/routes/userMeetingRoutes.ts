@@ -5,19 +5,76 @@ import IMeeting from "../interfaces/IMeeting";
 
 const userMeetingRoutes = express.Router();
 
-userMeetingRoutes.get("/", (req, res) => {
+/*
+    DELETES EXISTING MEETING
+
+    req.body 
+        - workspaceName : string
+        - userid : string
+    res.data 
+        - msg : string
+        - success : boolean
+*/
+userMeetingRoutes.delete("/:meetingid", (req, res) => {
   const {
     workspaceName,
     userid,
-  }: { workspaceName: string; userid: string } = req.body;
-  res.json({
-    msg: "this is user meeting routes",
+  }: {
+    workspaceName: string;
+    userid: string;
+  } = req.body;
+
+  const meetingid: string = req.params.meetingid;
+
+  WorkspaceModel.findOne({
     workspaceName,
-    userid,
-  });
+    "users.userid": userid,
+    "meetings.meetingid": meetingid,
+  })
+    .then((workspace) => {
+      if (workspace) {
+        // delete from workspace meetings arr
+        let delIndx = workspace.meetings.findIndex(
+          (meeting) => meeting.meetingid === meetingid
+        );
+        workspace.meetings.splice(delIndx, 1);
+
+        // delete from user meetings arr
+        const userMeetingsArr = workspace.users.filter(
+          (user) => user.userid === userid
+        )[0].meetings;
+        delIndx = userMeetingsArr.findIndex(
+          (meeting) => meeting.meetingid === meetingid
+        );
+        userMeetingsArr.splice(delIndx, 1);
+
+        workspace.save((err) => {
+          if (err) {
+            return res.json({
+              msg: `An error occurred while deleting ${meetingid} in ${workspaceName}`,
+              success: false,
+            });
+          } else {
+            return res.json({
+              msg: `Successfully deleted meeting ${meetingid} in ${workspaceName}`,
+              success: true,
+            });
+          }
+        });
+      } else {
+        return res.json({
+          msg:
+            "Cannot find data matching the workspaceName, userid, and meetingid",
+          success: false,
+        });
+      }
+    })
+    .catch((err) => res.json({ msg: "An error has occurred", success: false }));
 });
 
 /*
+    UPDATES EXISTING MEETING
+
     req.body 
         - workspaceName : string
         - userid : string
@@ -102,6 +159,8 @@ userMeetingRoutes.post("/:meetingid", (req, res) => {
 });
 
 /*
+    CREATES NEW MEETING
+
     req.body 
         - workspaceName : string
         - userid : string
