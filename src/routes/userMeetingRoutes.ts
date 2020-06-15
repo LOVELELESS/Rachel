@@ -2,6 +2,8 @@ import express from "express";
 import WorkspaceModel from "../models/Workspace";
 import IMeetingParticipant from "../interfaces/IMeetingParticipant";
 import IMeeting from "../interfaces/IMeeting";
+import mailgun from "mailgun-js";
+import { readdirSync } from "fs";
 
 const userMeetingRoutes = express.Router();
 
@@ -125,7 +127,7 @@ userMeetingRoutes.delete("/:meetingid", (req, res) => {
         - msg : string
         - success : boolean
 */
-userMeetingRoutes.post("/:meetingid", (req, res) => {
+userMeetingRoutes.put("/:meetingid", (req, res) => {
   const {
     workspaceName,
     userid,
@@ -268,6 +270,71 @@ userMeetingRoutes.post("/", (req, res) => {
       } else {
         return res.json({
           msg: "Cannot find data matching the workspaceName and userid",
+          success: false,
+        });
+      }
+    })
+    .catch((err) => res.json({ msg: "An error has occurred", success: false }));
+});
+
+userMeetingRoutes.post("/:meetingid/send_email", (req, res) => {
+  const {
+    workspaceName,
+    userid,
+  }: {
+    workspaceName: string;
+    userid: string;
+  } = req.body;
+
+  const meetingid: string = req.params.meetingid;
+
+  WorkspaceModel.findOne({
+    workspaceName,
+    "users.userid": userid,
+    "meetings.meetingid": meetingid,
+  })
+    .then((workspace) => {
+      if (workspace) {
+        let meetingIndx = workspace.meetings.findIndex(
+          (meeting) => meeting.meetingid === meetingid
+        );
+
+        const meeting = workspace.meetings[meetingIndx];
+
+        const participantsEmailArr = meeting.participants.map(
+          (participant) => participant.email
+        );
+
+        const mg = mailgun({
+          apiKey: process.env.MAILGUN_API_KEY as string,
+          domain: process.env.MAILGUN_DOMAIN as string,
+        });
+
+        const participantsEmailStr: string = participantsEmailArr.join(", ");
+        const data = {
+          from: `No-Reply ${workspaceName} <${workspaceName}@test.com>`,
+          to: participantsEmailStr,
+          subject: `Confirmation of meeting ${meeting.title}`,
+          text: `Description: ${meeting.description}`,
+        };
+
+        mg.messages().send(data, (error: any, body: any) => {
+          if (error) {
+            return res.json({
+              msg: "An error occurred while sending message",
+              success: false,
+            });
+          } else {
+            return res.json({
+              msg: "Successfully sent message",
+              success: true,
+            });
+          }
+        });
+      } else {
+        return res.json({
+          msg:
+            "Cannot find data matching the workspaceName, userid and meetingid",
           success: false,
         });
       }
