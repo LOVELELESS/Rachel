@@ -3,7 +3,9 @@ import WorkspaceModel from "../models/Workspace";
 import IMeetingParticipant from "../interfaces/IMeetingParticipant";
 import IMeeting from "../interfaces/IMeeting";
 import mailgun from "mailgun-js";
-import { readdirSync } from "fs";
+import qrcode from "qrcode";
+import fs from "fs";
+import path from "path";
 
 const userMeetingRoutes = express.Router();
 
@@ -305,32 +307,53 @@ userMeetingRoutes.post("/:meetingid/send_email", (req, res) => {
           (participant) => participant.email
         );
 
-        const mg = mailgun({
-          apiKey: process.env.MAILGUN_API_KEY as string,
-          domain: process.env.MAILGUN_DOMAIN as string,
-        });
-
         const participantsEmailStr: string = participantsEmailArr.join(", ");
-        const data = {
-          from: `No-Reply ${workspaceName} <${workspaceName}@test.com>`,
-          to: participantsEmailStr,
-          subject: `Confirmation of meeting ${meeting.title}`,
-          text: `Description: ${meeting.description}`,
-        };
 
-        mg.messages().send(data, (error: any, body: any) => {
-          if (error) {
-            return res.json({
-              msg: "An error occurred while sending message",
-              success: false,
+        qrcode.toFile(
+          `src/images/${workspaceName}-${meetingid}-${meeting.title}.png`,
+          "Some text",
+          function (err) {
+            if (err) {
+              return res.json({
+                msg: "An error occurred while sending message",
+                success: false,
+              });
+            }
+
+            const qrcodeFilepath = path.join(
+              __dirname,
+              `../images/${workspaceName}-${meetingid}-${meeting.title}.png`
+            );
+
+            const data = {
+              from: `No-Reply-${workspaceName} <NoReply@mg.${workspaceName}.com>`,
+              to: participantsEmailStr,
+              subject: `Confirmation of meeting ${meeting.title}`,
+              text: `Description: ${meeting.description}`,
+              attachment: qrcodeFilepath,
+            };
+
+            const mg = new mailgun({
+              apiKey: process.env.MAILGUN_API_KEY as string,
+              domain: process.env.MAILGUN_DOMAIN as string,
             });
-          } else {
-            return res.json({
-              msg: "Successfully sent message",
-              success: true,
+
+            mg.messages().send(data, (error: any, body: any) => {
+              fs.unlinkSync(qrcodeFilepath);
+              if (error) {
+                return res.json({
+                  msg: "An error occurred while sending message",
+                  success: false,
+                });
+              } else {
+                return res.json({
+                  msg: "Successfully sent message",
+                  success: true,
+                });
+              }
             });
           }
-        });
+        );
       } else {
         return res.json({
           msg:
