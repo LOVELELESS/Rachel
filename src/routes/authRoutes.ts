@@ -40,16 +40,19 @@ authRoutes.post("/login", (req, res) => {
 */
 authRoutes.post("/link_workspace", (req, res) => {
   const {
-    userid,
     workspaceName,
-  }: { userid: string; workspaceName: string } = req.body;
+    userid,
+    email,
+  }: { workspaceName: string; userid: string; email: string } = req.body;
   WorkspaceModel.findOne({ workspaceName })
     .then((workspace) => {
-      const newUser: IUser = {
-        userid,
-        meetings: [],
-      };
       if (workspace) {
+        const newUser: IUser = {
+          userid,
+          email,
+          role: "EMPLOYEE",
+          meetings: [],
+        };
         workspace.users.push(newUser);
         workspace.save((err) => {
           if (err) {
@@ -66,6 +69,12 @@ authRoutes.post("/link_workspace", (req, res) => {
         });
       } else {
         // create new workspace
+        const newUser: IUser = {
+          userid,
+          email,
+          role: "ADMIN",
+          meetings: [],
+        };
         const newWorkspace = new WorkspaceModel({
           workspaceName,
           users: [newUser],
@@ -87,23 +96,5 @@ authRoutes.post("/link_workspace", (req, res) => {
     })
     .catch((err) => res.json({ msg: "An error is occurred", success: false }));
 });
-
-/*
-authRoutes.post("/test", (req, res) => {
-  const newWorkspace = new WorkspaceModel({
-    workspaceName: "testWorkSpaceName",
-    users: [{ userid: "testUserId", meetings: [] }],
-    meetings: [],
-  });
-  newWorkspace.save((err, ws) => {
-    if (err) res.json({ msg: "failed", err });
-    else
-      res.json({
-        msg: "success",
-        workspace: ws,
-      });
-  });
-});
-*/
 
 export default authRoutes;

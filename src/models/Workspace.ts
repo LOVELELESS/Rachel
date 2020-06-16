@@ -7,6 +7,8 @@ const WorkspaceSchema = new Schema({
   users: [
     {
       userid: String,
+      email: String,
+      role: String,
       meetings: [
         {
           meetingid: String,
