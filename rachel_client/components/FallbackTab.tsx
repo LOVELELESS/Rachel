@@ -7,6 +7,9 @@ const socket = io('http://localhost:3000/', {
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
   reconnectionAttempts: Infinity,
+  query: {
+    workspaceName: 'testWorkspaceName',
+  },
 });
 socket.on('news', (data: any) => {
   console.log(data);

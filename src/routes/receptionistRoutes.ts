@@ -5,14 +5,19 @@ const receptionistRoutes = express.Router();
 
 io.on("connection", (socket: SocketIO.Socket) => {
   console.log("socket connected");
+  const { workspaceName }: { workspaceName: string } = socket.handshake.query;
+  console.log(workspaceName);
+  socket.join(workspaceName);
+
   socket.on("test", (data: any) => {
     console.log(data);
   });
 });
 
 receptionistRoutes.get("/test", (req, res) => {
-  io.emit("news", { hello: "world" });
-  res.json({ msg: "hello world" });
+  const { workspaceName }: { workspaceName: string } = req.body;
+  io.to(workspaceName).emit("news", { hello: "world" });
+  res.json({ msg: "helo" });
 });
 
 receptionistRoutes.post("/verify_qrcode", (req, res) => {});
