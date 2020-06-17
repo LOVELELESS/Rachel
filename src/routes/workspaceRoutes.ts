@@ -1,6 +1,7 @@
 import express from "express";
 import userRoutes from "./userRoutes";
 import meetingRoutes from "./meetingRoutes";
+import receptionistRoutes from "./receptionistRoutes";
 
 const workspaceRoutes = express.Router();
 workspaceRoutes.use(
@@ -18,7 +19,7 @@ workspaceRoutes.use(
     req.body.workspaceName = req.params.workspaceName;
     next();
   },
-  userRoutes
+  receptionistRoutes
 );
 
 workspaceRoutes.use("/:workspaceName/meetings", meetingRoutes);

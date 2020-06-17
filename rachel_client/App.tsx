@@ -4,6 +4,7 @@ import Config from 'react-native-config';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
+import FallbackTab from './components/FallbackTab';
 
 async function onFacebookButtonPress() {
   // Attempt login with permissions
@@ -108,6 +109,7 @@ const App = () => {
             .then(() => console.log('successfully signed out!'))
         }
       />
+      <FallbackTab />
     </SafeAreaView>
   );
 };

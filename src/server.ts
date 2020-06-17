@@ -1,22 +1,12 @@
-import dotenv from "dotenv";
-dotenv.config();
 import express from "express";
-import mongoose from "mongoose";
+import socketio from "socket.io";
+import http from "http";
+
 const app = express();
-const PORT = process.env.PORT || 3000;
-import authRoutes from "./routes/authRoutes";
-import workspaceRoutes from "./routes/workspaceRoutes";
-
-mongoose
-  .connect(process.env.MONGODB_URI as string, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to MongoDB!"))
-  .catch((err) => console.log(err));
-
 app.use(express.json());
-app.use("/auth", authRoutes);
-app.use("/workspaces", workspaceRoutes);
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}!`));
+const server = new http.Server(app);
+
+const io = socketio(server);
+
+export { app, server, io };
