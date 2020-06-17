@@ -8,7 +8,7 @@ const socket = io('http://localhost:3000/', {
   reconnectionDelayMax: 5000,
   reconnectionAttempts: Infinity,
   query: {
-    workspaceName: 'testWorkspaceName',
+    workspaceName: 'testWorkspaceName', // GET FROM CONTEXT
   },
 });
 
@@ -31,7 +31,7 @@ const FallbackTab = () => {
       {requireReply && (
         <Button
           title="Require Reply"
-          onPress={() => socket.emit('manual_form_reply', {msg: 'helo'})}
+          onPress={() => socket.emit('manual_form_reply', {msg: 'helo'})} // REPLACE WITH THE RELEVANT TEXT FIELDS
         />
       )}
     </>
