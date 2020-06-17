@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import { app, server, io } from "./server";
 import mongoose from "mongoose";
-import socketio from "socket.io";
 import authRoutes from "./routes/authRoutes";
 import workspaceRoutes from "./routes/workspaceRoutes";
 

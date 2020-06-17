@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import io from 'socket.io-client';
-import {Text} from 'react-native';
+import {Text, Button} from 'react-native';
 
 const socket = io('http://localhost:3000/', {
   reconnection: true,
@@ -11,13 +11,31 @@ const socket = io('http://localhost:3000/', {
     workspaceName: 'testWorkspaceName',
   },
 });
-socket.on('news', (data: any) => {
-  console.log(data);
-  socket.emit('test', {my: 'data'});
-});
 
 const FallbackTab = () => {
-  return <Text>This is the fallback tab component!</Text>;
+  const [requireReply, setRequireReply] = useState<Boolean>(false);
+  useEffect(() => {
+    socket.on('manual_form_submission', (data: any) => {
+      setRequireReply(true);
+      console.log(data);
+    });
+
+    socket.on('manual_form_get_reply', (data: any) => {
+      console.log(data);
+    });
+  }, []);
+
+  return (
+    <>
+      <Text>This is the fallback tab component!</Text>
+      {requireReply && (
+        <Button
+          title="Require Reply"
+          onPress={() => socket.emit('manual_form_reply', {msg: 'helo'})}
+        />
+      )}
+    </>
+  );
 };
 
 export default FallbackTab;
