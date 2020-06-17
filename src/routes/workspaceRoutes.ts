@@ -11,6 +11,16 @@ workspaceRoutes.use(
   },
   userRoutes
 );
+
+workspaceRoutes.use(
+  "/:workspaceName/receptionist",
+  (req, res, next) => {
+    req.body.workspaceName = req.params.workspaceName;
+    next();
+  },
+  userRoutes
+);
+
 workspaceRoutes.use("/:workspaceName/meetings", meetingRoutes);
 
 export default workspaceRoutes;
