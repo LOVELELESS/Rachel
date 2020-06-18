@@ -5,6 +5,7 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import FallbackTab from './components/FallbackTab';
+import QRcodeReaderTab from './components/QRcodeReaderTab';
 
 async function onFacebookButtonPress() {
   // Attempt login with permissions
@@ -110,6 +111,7 @@ const App = () => {
         }
       />
       <FallbackTab />
+      <QRcodeReaderTab />
     </SafeAreaView>
   );
 };

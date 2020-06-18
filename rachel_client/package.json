@@ -15,8 +15,11 @@
     "@react-native-firebase/auth": "^8.0.5",
     "react": "16.11.0",
     "react-native": "0.62.2",
+    "react-native-camera": "^3.30.0",
     "react-native-config": "^1.2.1",
     "react-native-fbsdk": "^2.0.0",
+    "react-native-permissions": "^2.1.5",
+    "react-native-qrcode-scanner": "^1.4.1",
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
