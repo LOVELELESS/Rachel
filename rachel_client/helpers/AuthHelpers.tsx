@@ -45,7 +45,5 @@ export async function onGoogleButtonPress() {
 }
 
 export function onSignOutPress() {
-  auth()
-    .signOut()
-    .then(() => console.log('successfully signed out!'));
+  auth().signOut();
 }

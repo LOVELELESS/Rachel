@@ -2,7 +2,7 @@ import React from 'react';
 import Config from 'react-native-config';
 import {SigninPageScreenProps} from '../types/screenTypes';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
-import {Button, Text} from 'react-native-elements';
+import {Button, Text, SocialIcon} from 'react-native-elements';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {
   onGoogleButtonPress,
@@ -25,15 +25,19 @@ const SigninPage = ({route, navigation}: SigninPageScreenProps) => {
         Please sign in to either your Google or Facebook account to continue
       </Text>
       <View style={styles.loginButtons}>
-        <Button
+        <SocialIcon
+          title="Sign In With Google"
+          button
           style={styles.button}
-          title="Google Sign-In"
           onPress={onGoogleButtonPress}
+          type="google"
         />
-        <Button
+        <SocialIcon
+          title="Sign In With Facebook"
+          button
           style={styles.button}
-          title="Facebook Sign-In"
           onPress={onFacebookButtonPress}
+          type="facebook"
         />
       </View>
     </SafeAreaView>
