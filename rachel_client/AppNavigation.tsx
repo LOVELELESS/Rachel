@@ -3,10 +3,11 @@ import {AuthContext} from './contexts/AuthContext';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from './types/navigationTypes';
+import {AuthContextType} from 'types/contextTypes';
 import SigninPage from './pages/SigninPage';
 import HomePage from './pages/HomePage';
 import SignOutButton from './components/SignOutButton';
-import {AuthContextType} from 'types/contextTypes';
+import HamburgerMenu from './components/HamburgerMenu';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 

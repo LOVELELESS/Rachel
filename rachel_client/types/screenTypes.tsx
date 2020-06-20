@@ -10,3 +10,13 @@ export type HomePageScreenProps = StackScreenProps<
   RootStackParamList,
   'HomePage'
 >;
+
+export type DashboardScreenProps = StackScreenProps<
+  RootStackParamList,
+  'Dashboard'
+>;
+
+export type MeetingsPageScreenProps = StackScreenProps<
+  RootStackParamList,
+  'MeetingsPage'
+>;

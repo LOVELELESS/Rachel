@@ -1,17 +1,17 @@
-import React, {useContext} from 'react';
-import {AuthContext} from '../contexts/AuthContext';
-import {AuthContextType} from '../types/contextTypes';
-import {SafeAreaView} from 'react-native';
-import {Text} from 'react-native-elements';
-import {HomePageScreenProps} from 'types/screenTypes';
+import React from 'react';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {HomePageScreenProps} from '../types/screenTypes';
+import Dashboard from './Dashboard';
+import MeetingsPage from './MeetingsPage';
+
+const Drawer = createDrawerNavigator();
 
 const HomePage = ({route, navigation}: HomePageScreenProps) => {
-  const auth: AuthContextType = useContext(AuthContext);
   return (
-    <SafeAreaView>
-      <Text>This is the home screen</Text>
-      <Text>{auth.user ? auth.user.displayName : 'NULL USER'}</Text>
-    </SafeAreaView>
+    <Drawer.Navigator>
+      <Drawer.Screen name="Dashboard" component={Dashboard} />
+      <Drawer.Screen name="MeetingsPage" component={MeetingsPage} />
+    </Drawer.Navigator>
   );
 };
 

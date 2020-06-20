@@ -2,7 +2,7 @@ import React from 'react';
 import Config from 'react-native-config';
 import {SigninPageScreenProps} from '../types/screenTypes';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
-import {Button, Text, SocialIcon} from 'react-native-elements';
+import {Text, SocialIcon} from 'react-native-elements';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {
   onGoogleButtonPress,

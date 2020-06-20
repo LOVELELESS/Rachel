@@ -2,8 +2,11 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {AuthProvider} from './contexts/AuthContext';
 import AppNavigation from './AppNavigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
-Icon.loadFont();
+import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+FontAwesomeIcons.loadFont();
+MaterialIcons.loadFont();
 
 const App = () => {
   return (
