@@ -1,6 +1,6 @@
 import React from 'react';
 import Config from 'react-native-config';
-import {SigninPageScreenProps} from '../types/typings';
+import {SigninPageScreenProps} from '../types/screenTypes';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {GoogleSignin} from '@react-native-community/google-signin';
