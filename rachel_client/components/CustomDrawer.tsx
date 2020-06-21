@@ -1,16 +1,7 @@
 import React from 'react';
-import {
-  View,
-  ScrollView,
-  SafeAreaView,
-  TouchableNativeFeedback,
-  StyleSheet,
-} from 'react-native';
-import {
-  DrawerItemList,
-  DrawerContentScrollView,
-} from '@react-navigation/drawer';
-import {Avatar, Text, Divider, Icon} from 'react-native-elements';
+import {ScrollView, StyleSheet} from 'react-native';
+import {DrawerItemList} from '@react-navigation/drawer';
+import {Avatar, Text} from 'react-native-elements';
 
 const CustomDrawer = (props: any) => {
   return (
@@ -18,15 +9,26 @@ const CustomDrawer = (props: any) => {
       <Avatar
         size="large"
         overlayContainerStyle={{
-          backgroundColor: 'blue',
+          backgroundColor: 'lightgrey',
         }}
-        containerStyle={{margin: 'auto'}}
+        containerStyle={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        }}
         rounded
-        icon={{name: 'home'}}
+        icon={{name: 'user', type: 'font-awesome'}}
       />
+      <Text style={styles.subtitle}>NAME</Text>
       <DrawerItemList {...props} />
     </ScrollView>
   );
 };
 
 export default CustomDrawer;
+
+const styles = StyleSheet.create({
+  subtitle: {
+    padding: 10,
+    textAlign: 'center',
+  },
+});
