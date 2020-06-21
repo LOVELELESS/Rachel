@@ -1,5 +1,4 @@
 import IMeeting from "./IMeeting";
-import { IRouterHandler } from "express";
 
 interface IUser {
   userid: string;

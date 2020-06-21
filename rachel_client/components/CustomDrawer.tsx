@@ -2,6 +2,7 @@ import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {DrawerItemList} from '@react-navigation/drawer';
 import {Avatar, Text} from 'react-native-elements';
+import SignOutButton from './SignOutButton';
 
 const CustomDrawer = (props: any) => {
   return (
@@ -19,6 +20,7 @@ const CustomDrawer = (props: any) => {
         icon={{name: 'user', type: 'font-awesome'}}
       />
       <Text style={styles.subtitle}>NAME</Text>
+      <SignOutButton />
       <DrawerItemList {...props} />
     </ScrollView>
   );

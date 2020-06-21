@@ -23,7 +23,6 @@ const AppNavigation = () => {
               name="HomePage"
               component={HomePage}
               options={({navigation}) => ({
-                headerLeft: () => <SignOutButton />,
                 headerRight: () => <HamburgerMenu navigation={navigation} />,
                 headerLeftContainerStyle: {
                   marginLeft: 15,
