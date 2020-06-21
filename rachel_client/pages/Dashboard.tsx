@@ -4,16 +4,9 @@ import {AuthContextType} from '../types/contextTypes';
 import {SafeAreaView} from 'react-native';
 import {Text} from 'react-native-elements';
 import {DashboardScreenProps} from 'types/screenTypes';
-import HamburgerMenu from '../components/HamburgerMenu';
 
 const Dashboard = ({route, navigation}: DashboardScreenProps) => {
   const auth: AuthContextType = useContext(AuthContext);
-  React.useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => <HamburgerMenu navigation={navigation} />,
-      title: 'dashboard',
-    });
-  }, [navigation]);
 
   return (
     <SafeAreaView>

@@ -22,9 +22,10 @@ const AppNavigation = () => {
             <RootStack.Screen
               name="HomePage"
               component={HomePage}
-              options={{
-                headerRight: () => <SignOutButton />,
-              }}
+              options={({navigation}) => ({
+                headerLeft: () => <SignOutButton />,
+                headerRight: () => <HamburgerMenu navigation={navigation} />,
+              })}
             />
           </>
         ) : (

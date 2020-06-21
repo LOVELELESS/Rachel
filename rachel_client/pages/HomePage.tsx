@@ -8,7 +8,7 @@ const Drawer = createDrawerNavigator();
 
 const HomePage = ({route, navigation}: HomePageScreenProps) => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator drawerPosition="right">
       <Drawer.Screen name="Dashboard" component={Dashboard} />
       <Drawer.Screen name="MeetingsPage" component={MeetingsPage} />
     </Drawer.Navigator>
