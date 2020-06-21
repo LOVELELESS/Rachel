@@ -25,6 +25,12 @@ const AppNavigation = () => {
               options={({navigation}) => ({
                 headerLeft: () => <SignOutButton />,
                 headerRight: () => <HamburgerMenu navigation={navigation} />,
+                headerLeftContainerStyle: {
+                  marginLeft: 15,
+                },
+                headerRightContainerStyle: {
+                  marginRight: 15,
+                },
               })}
             />
           </>

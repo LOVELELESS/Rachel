@@ -7,7 +7,7 @@ const HamburgerMenu = ({navigation}: any) => {
     <Icon
       size={40}
       name="menu"
-      onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+      onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} // not sure how to nest navigators properly so have to do this
     />
   );
 };
