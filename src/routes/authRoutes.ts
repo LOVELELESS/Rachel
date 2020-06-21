@@ -10,15 +10,23 @@ const authRoutes = express.Router();
     res.data 
         - msg : string
         - success : boolean     
+        - workspaceName ?: string
+        - role ?: string
 */
 authRoutes.post("/login", (req, res) => {
   const { userid }: { userid: string } = req.body;
   WorkspaceModel.findOne({ "users.userid": userid })
     .then((workspace) => {
       if (workspace) {
+        const userIndx = workspace.users.findIndex(
+          (user) => user.userid === userid
+        );
+        const role = workspace.users[userIndx].role;
         return res.json({
           msg: "Found user",
           success: true,
+          workspaceName: workspace.workspaceName,
+          role,
         });
       } else {
         return res.json({
@@ -37,6 +45,7 @@ authRoutes.post("/login", (req, res) => {
     res.data 
         - msg : string
         - success : boolean     
+        - role ?: string
 */
 authRoutes.post("/link_workspace", (req, res) => {
   const {
@@ -64,6 +73,7 @@ authRoutes.post("/link_workspace", (req, res) => {
             return res.json({
               msg: `Successfully saved new user to workspace ${workspaceName}`,
               success: true,
+              role: newUser.role
             });
           }
         });
@@ -89,6 +99,7 @@ authRoutes.post("/link_workspace", (req, res) => {
             return res.json({
               msg: `Successfully saved new user to new workspace ${workspaceName}`,
               success: true,
+              role: newUser.role
             });
           }
         });

@@ -1,10 +1,12 @@
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import {IUser} from '../types/authTypes';
 
 export type AuthContextType = {
   user: FirebaseAuthTypes.User | null;
   setUser: any;
-  userSettings: IUser | null;
+  userSettings: {
+    role: 'EMPLOYEE' | 'ADMIN' | null;
+    workspaceName: string | null;
+  };
   setUserSettings: any;
   loadingAuthState: boolean;
 };
