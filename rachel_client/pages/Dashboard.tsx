@@ -56,9 +56,11 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
         />
         {renderMeetingCards()}
       </Content>
-
       <Footer>
-        <Button title="add meetings" />
+        <Button
+          title="add meetings"
+          onPress={() => navigation.navigate('AddMeetingsPage')}
+        />
       </Footer>
     </Container>
   );
