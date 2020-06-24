@@ -1,11 +1,27 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import {AuthContext} from '../contexts/AuthContext';
+import {AuthContextType} from '../types/contextTypes';
 import {View} from 'react-native';
 import {Card, CardItem, Body, Text, Right, Left} from 'native-base';
 import {Icon} from 'react-native-elements';
+import customAxios from '../helpers/customAxios';
 
 const MeetingCard = ({data}) => {
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
-  console.log(data.participants);
+  const auth: AuthContextType = useContext(AuthContext);
+
+  const onPressDelete = () => {
+    customAxios
+      .delete(
+        `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/${data.meetingId}`,
+      )
+      .then((res) => {
+        console.log(res);
+        data.onDelete();
+      });
+  };
+
+  const onPressEdit = () => {};
 
   return (
     <Card>
@@ -57,8 +73,8 @@ const MeetingCard = ({data}) => {
         <Body>
           <Text>{data.meetingId}</Text>
         </Body>
-        <Icon name="delete" />
-        <Icon name="edit" />
+        <Icon name="delete" onPress={onPressDelete} />
+        <Icon name="edit" onPress={onPressEdit} />
       </CardItem>
     </Card>
   );

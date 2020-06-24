@@ -9,6 +9,7 @@ import {SafeAreaView} from 'react-native';
 import {Text, Button} from 'react-native-elements';
 import {Footer, FooterTab, Header, Content, Container} from 'native-base';
 import MeetingCard from '../components/MeetingCard';
+import {deepCopy} from '../helpers/arrayUtils';
 
 const Dashboard = ({route, navigation}: DashboardScreenProps) => {
   const [meetings, setMeetings] = useState<Array<Object>>([]);
@@ -39,6 +40,11 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
             meetingDescription: meeting.description,
             meetingId: meeting.meetingid,
             participants: meeting.participants,
+          }}
+          onDelete={() => {
+            let newMeetings = deepCopy(meetings);
+            newMeetings.splice(i, 1);
+            setMeetings(newMeetings);
           }}
         />
       ));
