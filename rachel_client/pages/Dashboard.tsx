@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import {DashboardScreenProps} from '../types/screenTypes';
 import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
@@ -13,15 +14,17 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
   const [meetings, setMeetings] = useState<Array<Object>>([]);
   const auth: AuthContextType = useContext(AuthContext);
 
-  useEffect(() => {
-    customAxios
-      .get(
-        `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/`,
-      )
-      .then((res) => {
-        setMeetings(res.data.meetings);
-      });
-  });
+  useFocusEffect(
+    React.useCallback(() => {
+      customAxios
+        .get(
+          `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/`,
+        )
+        .then((res) => {
+          setMeetings(res.data.meetings);
+        });
+    }, []),
+  );
 
   const renderMeetingCards = () => {
     if (meetings.length < 1) {
