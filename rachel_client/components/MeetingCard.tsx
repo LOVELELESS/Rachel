@@ -7,6 +7,7 @@ import {Icon} from 'react-native-elements';
 import customAxios from '../helpers/customAxios';
 
 const MeetingCard = ({navigation, data, onDelete}) => {
+  console.log(data.participants);
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
   const auth: AuthContextType = useContext(AuthContext);
 
@@ -65,7 +66,7 @@ const MeetingCard = ({navigation, data, onDelete}) => {
                   <View key={i}>
                     <Text>Name: {participant.name}</Text>
                     <Text>Email: {participant.email}</Text>
-                    <Text>Phone Num: {participant.phoneNumber}</Text>
+                    <Text>Phone Number: {participant.phoneNumber}</Text>
                   </View>
                 );
               } else {

@@ -99,10 +99,10 @@ const AddOrEditMeetingPage = ({
           />
           <Input
             placeholder="phone number (optional)"
-            value={participant.phoneNum ? participant.phoneNum : ''}
+            value={participant.phoneNumber ? participant.phoneNumber : ''}
             onChangeText={(e) => {
               let newParticipants = deepCopy(participants);
-              newParticipants[i].phoneNum = e;
+              newParticipants[i].phoneNumber = e;
               setParticipants(newParticipants);
             }}
           />
