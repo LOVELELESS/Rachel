@@ -12,7 +12,14 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
   return (
     <SafeAreaView>
       <Text h1>This is the Dashboard page</Text>
-      <MeetingCard />
+      <MeetingCard
+        data={{
+          meetingTitle: 'title',
+          meetingDate: Date.now(),
+          meetingDescription: 'description',
+          meetingId: '12345',
+        }}
+      />
     </SafeAreaView>
   );
 };

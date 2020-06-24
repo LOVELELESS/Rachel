@@ -1,35 +1,27 @@
 import React, {useState} from 'react';
-import {
-  Card,
-  CardItem,
-  Body,
-  Text,
-  Right,
-  Left,
-  Icon,
-  Button,
-} from 'native-base';
+import {Card, CardItem, Body, Text, Right, Left} from 'native-base';
+import {Icon} from 'react-native-elements';
 
-const MeetingCard = () => {
-  const data = [{title: '24 Jun 2020', content: 'meetingdescription'}];
+const MeetingCard = ({data}) => {
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
+
   return (
     <Card>
       <CardItem>
         <Left>
           <CardItem header>
-            <Text>meeting title</Text>
+            <Text>{data.meetingTitle}</Text>
           </CardItem>
         </Left>
         <Right>
           <CardItem header>
-            <Text>meeting date</Text>
+            <Text>{data.meetingDate}</Text>
           </CardItem>
         </Right>
       </CardItem>
       <CardItem>
         <Body>
-          <Text>meeting description</Text>
+          <Text>{data.meetingDescription}</Text>
         </Body>
       </CardItem>
       <CardItem button onPress={() => setViewParticipants(!viewParticipants)}>
@@ -44,11 +36,10 @@ const MeetingCard = () => {
       )}
       <CardItem footer>
         <Body>
-          <Text>meetingid</Text>
+          <Text>{data.meetingId}</Text>
         </Body>
-        <Right>
-          <Icon name="arrow-forward" />
-        </Right>
+        <Icon name="delete" />
+        <Icon name="edit" />
       </CardItem>
     </Card>
   );
