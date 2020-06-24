@@ -3,4 +3,5 @@ export type RootStackParamList = {
   HomePage: undefined;
   Dashboard: undefined;
   MeetingsPage: undefined;
+  AddMeetingPage: undefined;
 };

@@ -22,7 +22,9 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
           `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/`,
         )
         .then((res) => {
-          setMeetings(res.data.meetings);
+          if (res.data.success) {
+            setMeetings(res.data.meetings);
+          }
         });
     }, []),
   );
@@ -60,7 +62,7 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
       <Footer>
         <Button
           title="add meetings"
-          onPress={() => navigation.navigate('AddMeetingsPage')}
+          onPress={() => navigation.navigate('AddMeetingPage')}
         />
       </Footer>
     </Container>

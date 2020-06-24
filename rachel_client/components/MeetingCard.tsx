@@ -6,7 +6,7 @@ import {Card, CardItem, Body, Text, Right, Left} from 'native-base';
 import {Icon} from 'react-native-elements';
 import customAxios from '../helpers/customAxios';
 
-const MeetingCard = ({data}) => {
+const MeetingCard = ({data, onDelete}) => {
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
   const auth: AuthContextType = useContext(AuthContext);
 
@@ -17,7 +17,9 @@ const MeetingCard = ({data}) => {
       )
       .then((res) => {
         console.log(res);
-        data.onDelete();
+        if (res.data.success) {
+          onDelete();
+        }
       });
   };
 

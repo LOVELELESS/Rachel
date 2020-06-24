@@ -6,8 +6,9 @@ import {Text, Input, Button, Divider} from 'react-native-elements';
 import customAxios from '../helpers/customAxios';
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from '../helpers/arrayUtils';
+import {AddMeetingPageProps} from '../types/screenTypes';
 
-const AddMeetingsPage = () => {
+const AddMeetingPage = ({route, navigation}: AddMeetingPageProps) => {
   const auth: AuthContextType = useContext(AuthContext);
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
@@ -28,7 +29,12 @@ const AddMeetingsPage = () => {
           date: Date.now(),
         },
       )
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        if (res.data.success) {
+          navigation.goBack();
+        }
+      });
   };
 
   const renderParticipantsInput = () => {
@@ -94,4 +100,4 @@ const AddMeetingsPage = () => {
   );
 };
 
-export default AddMeetingsPage;
+export default AddMeetingPage;

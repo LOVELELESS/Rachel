@@ -6,7 +6,7 @@ import {RootStackParamList} from './types/navigationTypes';
 import {AuthContextType} from 'types/contextTypes';
 import SigninPage from './pages/SigninPage';
 import HomePage from './pages/HomePage';
-import AddMeetingsPage from './pages/AddMeetingsPage';
+import AddMeetingPage from './pages/AddMeetingPage';
 import SignOutButton from './components/SignOutButton';
 import HamburgerMenu from './components/HamburgerMenu';
 
@@ -34,8 +34,8 @@ const AppNavigation = () => {
               })}
             />
             <RootStack.Screen
-              name="AddMeetingsPage"
-              component={AddMeetingsPage}
+              name="AddMeetingPage"
+              component={AddMeetingPage}
               options={({navigation}) => ({
                 headerRight: () => <HamburgerMenu navigation={navigation} />,
                 headerLeftContainerStyle: {
