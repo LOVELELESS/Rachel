@@ -217,7 +217,6 @@ userMeetingRoutes.put("/:meetingid", (req, res) => {
         - success : boolean     
 */
 userMeetingRoutes.post("/", (req, res) => {
-  console.log(req.body);
   const {
     workspaceName,
     userid,

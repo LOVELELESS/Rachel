@@ -19,6 +19,7 @@ const AddMeetingsPage = () => {
           workspaceName: auth.userSettings.workspaceName,
           userid: auth.user.uid,
           meetingid: 'meetingid1',
+          title: 'testTitle',
           description: 'test description',
           participants: [],
           date: Date.now(),

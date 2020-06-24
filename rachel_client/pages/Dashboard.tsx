@@ -27,8 +27,9 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
     if (meetings.length < 1) {
       return <Text h1>NO PENDING MEETINGS</Text>;
     } else {
-      return meetings.map((meeting) => (
+      return meetings.map((meeting, i) => (
         <MeetingCard
+          key={i}
           data={{
             meetingTitle: meeting.title,
             meetingDate: meeting.date,
