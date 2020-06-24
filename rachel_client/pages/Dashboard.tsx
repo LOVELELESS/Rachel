@@ -45,17 +45,7 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
       <Header>
         <Text h1>This is the Dashboard page</Text>
       </Header>
-      <Content>
-        <MeetingCard
-          data={{
-            meetingTitle: 'title',
-            meetingDate: 'some date, later change',
-            meetingDescription: 'description',
-            meetingId: '12345',
-          }}
-        />
-        {renderMeetingCards()}
-      </Content>
+      <Content>{renderMeetingCards()}</Content>
       <Footer>
         <Button
           title="add meetings"
