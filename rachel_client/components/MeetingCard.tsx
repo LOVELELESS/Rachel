@@ -6,7 +6,7 @@ import {Card, CardItem, Body, Text, Right, Left} from 'native-base';
 import {Icon} from 'react-native-elements';
 import customAxios from '../helpers/customAxios';
 
-const MeetingCard = ({data, onDelete}) => {
+const MeetingCard = ({navigation, data, onDelete}) => {
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
   const auth: AuthContextType = useContext(AuthContext);
 
@@ -23,7 +23,16 @@ const MeetingCard = ({data, onDelete}) => {
       });
   };
 
-  const onPressEdit = () => {};
+  const onPressEdit = () => {
+    navigation.navigate('AddOrEditMeetingPage', {
+      meetingData: {
+        title: data.meetingTitle,
+        description: data.meetingDescription,
+        meetingid: data.meetingId,
+        participants: data.participants,
+      },
+    });
+  };
 
   return (
     <Card>

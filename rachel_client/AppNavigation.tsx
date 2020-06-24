@@ -6,8 +6,7 @@ import {RootStackParamList} from './types/navigationTypes';
 import {AuthContextType} from 'types/contextTypes';
 import SigninPage from './pages/SigninPage';
 import HomePage from './pages/HomePage';
-import AddMeetingPage from './pages/AddMeetingPage';
-import SignOutButton from './components/SignOutButton';
+import AddOrEditMeetingPage from './pages/AddOrEditMeetingPage';
 import HamburgerMenu from './components/HamburgerMenu';
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -34,8 +33,8 @@ const AppNavigation = () => {
               })}
             />
             <RootStack.Screen
-              name="AddMeetingPage"
-              component={AddMeetingPage}
+              name="AddOrEditMeetingPage"
+              component={AddOrEditMeetingPage}
               options={({navigation}) => ({
                 headerRight: () => <HamburgerMenu navigation={navigation} />,
                 headerLeftContainerStyle: {

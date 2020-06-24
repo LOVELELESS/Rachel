@@ -36,6 +36,7 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
       return meetings.map((meeting, i) => (
         <MeetingCard
           key={i}
+          navigation={navigation}
           data={{
             meetingTitle: meeting.title,
             meetingDate: meeting.date,
@@ -62,7 +63,7 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
       <Footer>
         <Button
           title="add meetings"
-          onPress={() => navigation.navigate('AddMeetingPage')}
+          onPress={() => navigation.navigate('AddOrEditMeetingPage')}
         />
       </Footer>
     </Container>

@@ -6,35 +6,72 @@ import {Text, Input, Button, Divider} from 'react-native-elements';
 import customAxios from '../helpers/customAxios';
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from '../helpers/arrayUtils';
-import {AddMeetingPageProps} from '../types/screenTypes';
+import {AddOrEditMeetingPageProps} from '../types/screenTypes';
 
-const AddMeetingPage = ({route, navigation}: AddMeetingPageProps) => {
+const AddOrEditMeetingPage = ({
+  route,
+  navigation,
+}: AddOrEditMeetingPageProps) => {
   const auth: AuthContextType = useContext(AuthContext);
-  const [title, setTitle] = useState<string>();
-  const [description, setDescription] = useState<string>();
-  const [participants, setParticipants] = useState<Array<Object>>([{}]);
+
+  let initalTitle = '';
+  let initialDescription = '';
+  let initialParticipants = [{}];
+  if (route.params) {
+    initalTitle = route.params.meetingData.title;
+    initialDescription = route.params.meetingData.description;
+    initialParticipants = route.params.meetingData.participants;
+  }
+
+  const [title, setTitle] = useState<string>(initalTitle);
+  const [description, setDescription] = useState<string>(initialDescription);
+  const [participants, setParticipants] = useState<Array<Object>>(
+    initialParticipants,
+  );
 
   const onPressSubmit = () => {
-    const meetingid = uuidv4();
-    customAxios
-      .post(
-        `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/`,
-        {
-          workspaceName: auth.userSettings.workspaceName,
-          userid: auth.user.uid,
-          meetingid,
-          title,
-          description,
-          participants,
-          date: Date.now(),
-        },
-      )
-      .then((res) => {
-        console.log(res);
-        if (res.data.success) {
-          navigation.goBack();
-        }
-      });
+    if (route.params) {
+      const meetingid = route.params.meetingData.meetingid;
+      customAxios
+        .put(
+          `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/${meetingid}`,
+          {
+            workspaceName: auth.userSettings.workspaceName,
+            userid: auth.user.uid,
+            meetingid,
+            title,
+            description,
+            participants,
+            date: Date.now(),
+          },
+        )
+        .then((res) => {
+          console.log(res);
+          if (res.data.success) {
+            navigation.goBack();
+          }
+        });
+    } else {
+      customAxios
+        .post(
+          `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/`,
+          {
+            workspaceName: auth.userSettings.workspaceName,
+            userid: auth.user.uid,
+            meetingid: uuidv4(),
+            title,
+            description,
+            participants,
+            date: Date.now(),
+          },
+        )
+        .then((res) => {
+          console.log(res);
+          if (res.data.success) {
+            navigation.goBack();
+          }
+        });
+    }
   };
 
   const renderParticipantsInput = () => {
@@ -100,4 +137,4 @@ const AddMeetingPage = ({route, navigation}: AddMeetingPageProps) => {
   );
 };
 
-export default AddMeetingPage;
+export default AddOrEditMeetingPage;

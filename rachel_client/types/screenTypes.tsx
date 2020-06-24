@@ -21,7 +21,7 @@ export type MeetingsPageScreenProps = StackScreenProps<
   'MeetingsPage'
 >;
 
-export type AddMeetingPageProps = StackScreenProps<
+export type AddOrEditMeetingPageProps = StackScreenProps<
   RootStackParamList,
-  'AddMeetingPage'
+  'AddOrEditMeetingPage'
 >;
