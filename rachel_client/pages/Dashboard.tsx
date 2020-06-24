@@ -38,6 +38,7 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
             meetingDate: meeting.date,
             meetingDescription: meeting.description,
             meetingId: meeting.meetingid,
+            participants: meeting.participants,
           }}
         />
       ));

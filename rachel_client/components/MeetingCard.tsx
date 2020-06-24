@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
+import {View} from 'react-native';
 import {Card, CardItem, Body, Text, Right, Left} from 'native-base';
 import {Icon} from 'react-native-elements';
 
 const MeetingCard = ({data}) => {
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
+  console.log(data.participants);
 
   return (
     <Card>
@@ -30,7 +32,24 @@ const MeetingCard = ({data}) => {
       {viewParticipants && (
         <CardItem>
           <Body>
-            <Text>participant name, email, phone</Text>
+            {data.participants.map((participant, i) => {
+              if (participant.phoneNumber) {
+                return (
+                  <View key={i}>
+                    <Text>Name: {participant.name}</Text>
+                    <Text>Email: {participant.email}</Text>
+                    <Text>Phone Num: {participant.phoneNumber}</Text>
+                  </View>
+                );
+              } else {
+                return (
+                  <View key={i}>
+                    <Text>Name: {participant.name}</Text>
+                    <Text>Email: {participant.email}</Text>
+                  </View>
+                );
+              }
+            })}
           </Body>
         </CardItem>
       )}
