@@ -30,8 +30,10 @@ const AddOrEditMeetingPage = ({
   );
 
   const onPressSubmit = () => {
+    let meetingid;
     if (route.params) {
-      const meetingid = route.params.meetingData.meetingid;
+      // editing existing meeting
+      meetingid = route.params.meetingData.meetingid;
       customAxios
         .put(
           `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/${meetingid}`,
@@ -52,13 +54,15 @@ const AddOrEditMeetingPage = ({
           }
         });
     } else {
+      // creating new meeting
+      meetingid = uuidv4();
       customAxios
         .post(
           `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/`,
           {
             workspaceName: auth.userSettings.workspaceName,
             userid: auth.user.uid,
-            meetingid: uuidv4(),
+            meetingid,
             title,
             description,
             participants,
@@ -68,7 +72,16 @@ const AddOrEditMeetingPage = ({
         .then((res) => {
           console.log(res);
           if (res.data.success) {
-            navigation.goBack();
+            customAxios
+              .post(
+                `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/${meetingid}/send_email`,
+              )
+              .then((res) => {
+                console.log(res);
+                if (res.data.success) {
+                  navigation.goBack();
+                }
+              });
           }
         });
     }
