@@ -25,3 +25,8 @@ export type AddOrEditMeetingPageProps = StackScreenProps<
   RootStackParamList,
   'AddOrEditMeetingPage'
 >;
+
+export type ReceptionistWelcomePageProps = StackScreenProps<
+  RootStackParamList,
+  'ReceptionistWelcomePage'
+>;

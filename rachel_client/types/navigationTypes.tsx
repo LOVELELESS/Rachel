@@ -11,4 +11,5 @@ export type RootStackParamList = {
       participants: Array<Object>;
     };
   };
+  ReceptionistWelcomePage: undefined;
 };

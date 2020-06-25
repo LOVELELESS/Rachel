@@ -1,4 +1,5 @@
 import express from "express";
+import WorkspaceModel from "../models/Workspace";
 import { io } from "../server";
 
 const receptionistRoutes = express.Router();
@@ -27,5 +28,29 @@ receptionistRoutes.post("/submit_form", (req, res) => {
 });
 
 receptionistRoutes.post("/verify_qrcode", (req, res) => {});
+
+receptionistRoutes.post("/verify", (req, res) => {
+  const { workspaceName }: { workspaceName: string } = req.body;
+  WorkspaceModel.findOne({ workspaceName })
+    .then((workspace) => {
+      if (workspace) {
+        res.json({
+          msg: "Verified workspace",
+          success: true,
+        });
+      } else {
+        res.json({
+          msg: "Workspace not found",
+          success: false,
+        });
+      }
+    })
+    .catch((e) =>
+      res.json({
+        msg: "An error has occured",
+        success: false,
+      })
+    );
+});
 
 export default receptionistRoutes;

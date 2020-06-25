@@ -9,6 +9,7 @@ import Dashboard from './Dashboard';
 import MeetingsPage from './MeetingsPage';
 import CustomDrawer from '../components/CustomDrawer';
 import customAxios from '../helpers/customAxios';
+import SignOutButton from '../components/SignOutButton';
 
 const Drawer = createDrawerNavigator();
 
@@ -58,7 +59,12 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
       navigation.setOptions({
         headerRight: undefined,
       });
-      return <Text>IS LOADING</Text>;
+      return (
+        <View>
+          <Text>IS LOADING</Text>
+          <SignOutButton />
+        </View>
+      );
     } else if (showLinkWorkspaceModal) {
       return (
         <Overlay isVisible={showLinkWorkspaceModal}>

@@ -8,6 +8,7 @@ import SigninPage from './pages/SigninPage';
 import HomePage from './pages/HomePage';
 import AddOrEditMeetingPage from './pages/AddOrEditMeetingPage';
 import HamburgerMenu from './components/HamburgerMenu';
+import ReceptionistWelcomePage from './pages/receptionist-flow/ReceptionistWelcomePage';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -46,6 +47,11 @@ const AppNavigation = () => {
               options={{
                 animationTypeForReplace: auth.user ? 'push' : 'pop', // 'pop' animation for signing out as it is more natural
               }}
+            />
+            <RootStack.Screen
+              name="ReceptionistWelcomePage"
+              component={ReceptionistWelcomePage}
+              options={{}}
             />
           </>
         )}

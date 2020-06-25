@@ -39,7 +39,10 @@ const SigninPage = ({route, navigation}: SigninPageScreenProps) => {
           onPress={onFacebookButtonPress}
           type="facebook"
         />
-        <Button title="Launch E-Receptionist" />
+        <Button
+          title="Launch E-Receptionist"
+          onPress={() => navigation.navigate('ReceptionistWelcomePage')}
+        />
       </View>
     </SafeAreaView>
   );
