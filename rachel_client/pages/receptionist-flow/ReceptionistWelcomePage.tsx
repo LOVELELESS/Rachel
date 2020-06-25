@@ -11,14 +11,25 @@ const ReceptionistWelcomePage = ({
   const [overlayVisible, setOverlayVisible] = useState<boolean>(true);
   const [workspaceName, setWorkspaceName] = useState<string>('');
   const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [token, setToken] = useState<string>('');
 
   const onPressVerifyWorkspace = () => {
     customAxios
       .post(`workspaces/${workspaceName}/receptionist/verify`)
       .then((res) => {
         console.log(res);
-        setIsVerified(true);
+        if (res.data.success) {
+          setIsVerified(true);
+        }
       });
+  };
+
+  const onPressCheckToken = () => {
+    customAxios
+      .post(`workspaces/${workspaceName}/receptionist/check_otp_token`, {
+        token,
+      })
+      .then((res) => console.log(res));
   };
 
   const renderOverlayContent = () => {
@@ -26,9 +37,15 @@ const ReceptionistWelcomePage = ({
       <View>
         <Text>Verified</Text>
         <Text>
-          Please enter the {workspaceName} PIN set by the {workspaceName} admin
+          Please enter the {workspaceName} OTP that was just emailed to by the{' '}
+          {workspaceName} admin
         </Text>
-        <Input placeholder={`${workspaceName} workspace pin`} />
+        <Input
+          placeholder={`${workspaceName} workspace OTP`}
+          value={token}
+          onChangeText={(e) => setToken(e)}
+        />
+        <Button title="submit" onPress={onPressCheckToken} />
       </View>
     ) : (
       <View>

@@ -2,7 +2,6 @@ import express from "express";
 import userRoutes from "./userRoutes";
 import meetingRoutes from "./meetingRoutes";
 import receptionistRoutes from "./receptionistRoutes";
-import { app } from "../server";
 
 const workspaceRoutes = express.Router();
 workspaceRoutes.use(

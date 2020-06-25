@@ -1,6 +1,7 @@
 import express from "express";
 import WorkspaceModel from "../models/Workspace";
 import { io } from "../server";
+import { totp } from "otplib";
 
 const receptionistRoutes = express.Router();
 
@@ -29,17 +30,30 @@ receptionistRoutes.post("/submit_form", (req, res) => {
 
 receptionistRoutes.post("/verify_qrcode", (req, res) => {});
 
+receptionistRoutes.post("/check_otp_token", (req, res) => {
+  const {
+    workspaceName,
+    token,
+  }: { workspaceName: string; token: string } = req.body;
+  const isValid = totp.check(token, process.env.TOTP_SECRET as string);
+  return res.json({
+    success: isValid,
+  });
+});
+
 receptionistRoutes.post("/verify", (req, res) => {
   const { workspaceName }: { workspaceName: string } = req.body;
   WorkspaceModel.findOne({ workspaceName })
     .then((workspace) => {
       if (workspace) {
-        res.json({
+        const token = totp.generate(process.env.TOTP_SECRET as string);
+        return res.json({
           msg: "Verified workspace",
           success: true,
+          token,
         });
       } else {
-        res.json({
+        return res.json({
           msg: "Workspace not found",
           success: false,
         });
