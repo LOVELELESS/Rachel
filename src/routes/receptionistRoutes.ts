@@ -4,6 +4,8 @@ import { io } from "../server";
 import { totp } from "otplib";
 import mailgun from "mailgun-js";
 
+totp.options = { step: 300 };
+
 const receptionistRoutes = express.Router();
 
 io.on("connection", (socket: SocketIO.Socket) => {
@@ -97,6 +99,7 @@ receptionistRoutes.post("/check_otp_token", (req, res) => {
     workspaceName,
     token,
   }: { workspaceName: string; token: string } = req.body;
+  console.log(totp.timeRemaining());
   const isValid = totp.check(token, process.env.TOTP_SECRET as string);
   return res.json({
     success: isValid,
@@ -150,6 +153,7 @@ receptionistRoutes.post("/verify", (req, res) => {
             return res.json({
               msg: "Successfully sent message with OTP",
               success: true,
+              token,
             });
           }
         });
