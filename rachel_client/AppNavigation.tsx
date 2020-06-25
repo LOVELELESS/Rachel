@@ -7,7 +7,6 @@ import {AuthContextType} from 'types/contextTypes';
 import SigninPage from './pages/SigninPage';
 import HomePage from './pages/HomePage';
 import AddOrEditMeetingPage from './pages/AddOrEditMeetingPage';
-import HamburgerMenu from './components/HamburgerMenu';
 import ReceptionistWelcomePage from './pages/receptionist-flow/ReceptionistWelcomePage';
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -24,7 +23,6 @@ const AppNavigation = () => {
               name="HomePage"
               component={HomePage}
               options={{
-                headerRight: () => <HamburgerMenu />,
                 headerLeftContainerStyle: {
                   marginLeft: 15,
                 },

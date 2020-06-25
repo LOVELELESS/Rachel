@@ -2,6 +2,7 @@ import express from "express";
 import WorkspaceModel from "../models/Workspace";
 import { io } from "../server";
 import { totp } from "otplib";
+import mailgun from "mailgun-js";
 
 const receptionistRoutes = express.Router();
 
@@ -66,10 +67,40 @@ receptionistRoutes.post("/verify", (req, res) => {
     .then((workspace) => {
       if (workspace) {
         const token = totp.generate(process.env.TOTP_SECRET as string);
-        return res.json({
-          msg: "Verified workspace",
-          success: true,
-          token,
+
+        let adminEmails: Array<string> = workspace.users
+          .filter((user) => user.role === "ADMIN")
+          .map((user) => user.email);
+
+        const mg = new mailgun({
+          apiKey: process.env.MAILGUN_API_KEY as string,
+          domain: process.env.MAILGUN_DOMAIN as string,
+        });
+
+        const adminEmailsStr = adminEmails.join(",");
+        console.log(adminEmailsStr);
+        const data = {
+          from: `No-Reply-${workspaceName} <NoReply@mg.${workspaceName}.com>`,
+          to: adminEmailsStr,
+          subject: `OTP for launching E-Receptionist`,
+          text: `Token: ${token}`,
+        };
+
+        mg.messages().send(data, (error: any, body: any) => {
+          if (error) {
+            console.log(error);
+            return res.json({
+              msg:
+                "Verified workspace, but an error occurred while sending the email",
+              success: false,
+              token,
+            });
+          } else {
+            return res.json({
+              msg: "Successfully sent message with OTP",
+              success: true,
+            });
+          }
         });
       } else {
         return res.json({

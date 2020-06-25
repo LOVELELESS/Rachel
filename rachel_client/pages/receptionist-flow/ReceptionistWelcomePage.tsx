@@ -73,6 +73,8 @@ const ReceptionistWelcomePage = ({
         <View>{renderOverlayContent()}</View>
       </Overlay>
       <Text>This is the receptionist wwlcome page</Text>
+      <Button title="I have a scheduled meeting" />
+      <Button title="This is an unscheduled meeting" />
     </View>
   );
 };

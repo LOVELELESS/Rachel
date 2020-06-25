@@ -10,6 +10,7 @@ import MeetingsPage from './MeetingsPage';
 import CustomDrawer from '../components/CustomDrawer';
 import customAxios from '../helpers/customAxios';
 import SignOutButton from '../components/SignOutButton';
+import HamburgerMenu from '../components/HamburgerMenu';
 
 const Drawer = createDrawerNavigator();
 
@@ -83,6 +84,9 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
         </Overlay>
       );
     } else {
+      navigation.setOptions({
+        headerRight: () => <HamburgerMenu />,
+      });
       return (
         <Drawer.Navigator
           drawerPosition="right"
