@@ -22,28 +22,20 @@ const AppNavigation = () => {
             <RootStack.Screen
               name="HomePage"
               component={HomePage}
-              options={({navigation}) => ({
-                headerRight: () => <HamburgerMenu navigation={navigation} />,
+              options={{
+                headerRight: () => <HamburgerMenu />,
                 headerLeftContainerStyle: {
                   marginLeft: 15,
                 },
                 headerRightContainerStyle: {
                   marginRight: 15,
                 },
-              })}
+              }}
             />
+
             <RootStack.Screen
               name="AddOrEditMeetingPage"
               component={AddOrEditMeetingPage}
-              options={({navigation}) => ({
-                headerRight: () => <HamburgerMenu navigation={navigation} />,
-                headerLeftContainerStyle: {
-                  marginLeft: 15,
-                },
-                headerRightContainerStyle: {
-                  marginRight: 15,
-                },
-              })}
             />
           </>
         ) : (

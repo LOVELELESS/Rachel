@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
 import {Text, Input, Button, Divider} from 'react-native-elements';
@@ -112,7 +112,7 @@ const AddOrEditMeetingPage = ({
   };
 
   return (
-    <>
+    <ScrollView>
       <Input
         placeholder="title of meeting"
         onChangeText={(e) => setTitle(e)}
@@ -133,7 +133,7 @@ const AddOrEditMeetingPage = ({
         }}
       />
       <Button title="submit" onPress={onPressSubmit} />
-    </>
+    </ScrollView>
   );
 };
 

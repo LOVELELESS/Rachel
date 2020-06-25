@@ -1,8 +1,9 @@
 import React from 'react';
-import {DrawerActions} from '@react-navigation/native';
+import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
 
-const HamburgerMenu = ({navigation}: any) => {
+const HamburgerMenu = () => {
+  const navigation = useNavigation();
   return (
     <Icon
       size={40}

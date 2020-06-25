@@ -2,7 +2,7 @@ import React from 'react';
 import Config from 'react-native-config';
 import {SigninPageScreenProps} from '../types/screenTypes';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
-import {Text, SocialIcon} from 'react-native-elements';
+import {Text, SocialIcon, Button} from 'react-native-elements';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {
   onGoogleButtonPress,
@@ -39,6 +39,7 @@ const SigninPage = ({route, navigation}: SigninPageScreenProps) => {
           onPress={onFacebookButtonPress}
           type="facebook"
         />
+        <Button title="Launch E-Receptionist" />
       </View>
     </SafeAreaView>
   );

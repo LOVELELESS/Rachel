@@ -55,6 +55,9 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
 
   const renderContent = () => {
     if (loading) {
+      navigation.setOptions({
+        headerRight: undefined,
+      });
       return <Text>IS LOADING</Text>;
     } else if (showLinkWorkspaceModal) {
       return (
