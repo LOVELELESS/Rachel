@@ -29,7 +29,59 @@ receptionistRoutes.post("/submit_form", (req, res) => {
   });
 });
 
-receptionistRoutes.post("/verify_qrcode", (req, res) => {});
+/*
+    VERIFY QRCODE DATA FOR USERS WITH SCHEDULED MEETING
+
+    req.body 
+        - workspaceName : string
+        - qrCodeData : string (in the form JSON.stringify({qrCodeWorkspaceName: workspaceName, qrCodeMeetingId: meetingid})
+    res.data 
+        - msg : string
+        - success : boolean
+*/
+receptionistRoutes.post("/verify_qrcode", (req, res) => {
+  const {
+    workspaceName,
+    qrCodeData,
+  }: { workspaceName: string; qrCodeData: string } = req.body;
+  const { qrCodeWorkspaceName, qrCodeMeetingId } = JSON.parse(qrCodeData);
+  if (qrCodeWorkspaceName !== workspaceName) {
+    return res.json({
+      msg: "Invalid qr code: workspaceName not matching",
+      success: false,
+    });
+  }
+
+  WorkspaceModel.findOne({
+    workspaceName,
+    "meetings.meetingid": qrCodeMeetingId,
+  })
+    .then((workspace) => {
+      if (workspace) {
+        const user = workspace.users.filter(
+          (user) =>
+            user.meetings.findIndex(
+              (meeting) => meeting.meetingid === qrCodeMeetingId
+            ) >= 0
+        )[0];
+        res.json({
+          msg: `Verified scheduled meeting. ${user.displayName} has been contacted about your arrival`,
+          success: true,
+        });
+      } else {
+        return res.json({
+          msg: "Invalid meetingid",
+          success: false,
+        });
+      }
+    })
+    .catch((err) =>
+      res.json({
+        msg: "An error has occurred",
+        success: false,
+      })
+    );
+});
 
 /*
     SECOND STEP VERIFICATION (CHECK TOTP TOKEN)

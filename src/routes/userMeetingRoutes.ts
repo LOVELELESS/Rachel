@@ -311,7 +311,10 @@ userMeetingRoutes.post("/:meetingid/send_email", (req, res) => {
 
         qrcode.toFile(
           `src/images/${workspaceName}-${meetingid}-${meeting.title}.png`,
-          `${workspaceName}-${meetingid}`,
+          JSON.stringify({
+            qrCodeWorkspaceName: workspaceName,
+            qrCodeMeetingId: meetingid,
+          }),
           function (err) {
             if (err) {
               return res.json({
