@@ -8,10 +8,12 @@ const ReceptionistWelcomePage = ({
   route,
   navigation,
 }: ReceptionistWelcomePageProps) => {
-  const [overlayVisible, setOverlayVisible] = useState<boolean>(true);
   const [workspaceName, setWorkspaceName] = useState<string>('');
-  const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [isWorkspaceVerified, setIsWorkspaceVerified] = useState<boolean>(
+    false,
+  );
   const [token, setToken] = useState<string>('');
+  const [isVerified, setIsVerified] = useState<boolean>(false);
 
   const onPressVerifyWorkspace = () => {
     customAxios
@@ -19,7 +21,7 @@ const ReceptionistWelcomePage = ({
       .then((res) => {
         console.log(res);
         if (res.data.success) {
-          setIsVerified(true);
+          setIsWorkspaceVerified(true);
         }
       });
   };
@@ -29,13 +31,18 @@ const ReceptionistWelcomePage = ({
       .post(`workspaces/${workspaceName}/receptionist/check_otp_token`, {
         token,
       })
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        if (res.data.success) {
+          setIsVerified(true);
+        }
+      });
   };
 
   const renderOverlayContent = () => {
-    return isVerified ? (
+    return isWorkspaceVerified ? (
       <View>
-        <Text>Verified</Text>
+        <Text>Verified Workspace</Text>
         <Text>
           Please enter the {workspaceName} OTP that was just emailed to by the{' '}
           {workspaceName} admin
@@ -62,7 +69,7 @@ const ReceptionistWelcomePage = ({
 
   return (
     <View>
-      <Overlay isVisible={overlayVisible}>
+      <Overlay isVisible={!isVerified}>
         <View>{renderOverlayContent()}</View>
       </Overlay>
       <Text>This is the receptionist wwlcome page</Text>
