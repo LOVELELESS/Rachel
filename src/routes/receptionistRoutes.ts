@@ -30,6 +30,15 @@ receptionistRoutes.post("/submit_form", (req, res) => {
 
 receptionistRoutes.post("/verify_qrcode", (req, res) => {});
 
+/*
+    SECOND STEP VERIFICATION (CHECK TOTP TOKEN)
+
+    req.body 
+        - workspaceName : string
+        - token : string
+    res.data 
+        - success : boolean
+*/
 receptionistRoutes.post("/check_otp_token", (req, res) => {
   const {
     workspaceName,
@@ -41,6 +50,16 @@ receptionistRoutes.post("/check_otp_token", (req, res) => {
   });
 });
 
+/*
+    FIRST STEP VERIFICATION (VERIFY WORKSPACE EXISTS)
+
+    req.body 
+        - workspaceName : string
+    res.data 
+        - msg : string
+        - success : boolean
+        - token ?: string
+*/
 receptionistRoutes.post("/verify", (req, res) => {
   const { workspaceName }: { workspaceName: string } = req.body;
   WorkspaceModel.findOne({ workspaceName })
