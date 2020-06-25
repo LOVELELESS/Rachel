@@ -78,7 +78,6 @@ receptionistRoutes.post("/verify", (req, res) => {
         });
 
         const adminEmailsStr = adminEmails.join(",");
-        console.log(adminEmailsStr);
         const data = {
           from: `No-Reply-${workspaceName} <NoReply@mg.${workspaceName}.com>`,
           to: adminEmailsStr,

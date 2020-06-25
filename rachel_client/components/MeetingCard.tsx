@@ -7,7 +7,6 @@ import {Icon} from 'react-native-elements';
 import customAxios from '../helpers/customAxios';
 
 const MeetingCard = ({navigation, data, onDelete}) => {
-  console.log(data.participants);
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
   const auth: AuthContextType = useContext(AuthContext);
 

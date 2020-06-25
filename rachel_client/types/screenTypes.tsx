@@ -30,3 +30,8 @@ export type ReceptionistWelcomePageProps = StackScreenProps<
   RootStackParamList,
   'ReceptionistWelcomePage'
 >;
+
+export type ReceptionistQrReaderPageProps = StackScreenProps<
+  RootStackParamList,
+  'ReceptionistQrReaderPage'
+>;
