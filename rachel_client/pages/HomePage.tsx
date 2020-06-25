@@ -43,8 +43,10 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
   const onPressLinkWorkspace = () => {
     customAxios
       .post('auth/link_workspace', {
-        userid: auth.user?.uid,
         workspaceName: workspaceNameInput,
+        userid: auth.user?.uid,
+        displayName: auth.user?.displayName,
+        email: auth.user?.email,
       })
       .then((res) => {
         auth.setUserSettings({
