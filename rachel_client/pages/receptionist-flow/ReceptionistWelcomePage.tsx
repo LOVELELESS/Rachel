@@ -75,7 +75,9 @@ const ReceptionistWelcomePage = ({
       <Text>This is the receptionist wwlcome page</Text>
       <Button
         title="I have a scheduled meeting"
-        onPress={() => navigation.navigate('ReceptionistQrReaderPage')}
+        onPress={() =>
+          navigation.navigate('ReceptionistQrReaderPage', {workspaceName})
+        }
       />
       <Button title="This is an unscheduled meeting" />
     </View>

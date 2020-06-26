@@ -12,5 +12,7 @@ export type RootStackParamList = {
     };
   };
   ReceptionistWelcomePage: undefined;
-  ReceptionistQrReaderPage: undefined;
+  ReceptionistQrReaderPage: {
+    workspaceName: string;
+  };
 };
