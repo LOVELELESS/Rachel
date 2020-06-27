@@ -10,12 +10,3 @@ export type AuthContextType = {
   setUserSettings: any;
   loadingAuthState: boolean;
 };
-
-export type NotificationContextType = {
-  messages: Message[];
-  setMessages: any;
-};
-
-export type Message = {
-  content: string;
-};

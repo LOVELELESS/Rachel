@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Config from 'react-native-config';
 import {SigninPageScreenProps} from '../types/screenTypes';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
