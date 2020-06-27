@@ -16,4 +16,7 @@ export type RootStackParamList = {
   ReceptionistQrReaderPage: {
     workspaceName: string;
   };
+  ReceptionistFormPage: {
+    workspaceName: string;
+  };
 };

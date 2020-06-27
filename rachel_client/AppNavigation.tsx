@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import AddOrEditMeetingPage from './pages/AddOrEditMeetingPage';
 import ReceptionistWelcomePage from './pages/receptionist-flow/ReceptionistWelcomePage';
 import ReceptionistQrReaderPage from './pages/receptionist-flow/ReceptionistQrReaderPage';
+import ReceptionistFormPage from './pages/receptionist-flow/ReceptionistFormPage';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -53,6 +54,10 @@ const AppNavigation = () => {
             <RootStack.Screen
               name="ReceptionistQrReaderPage"
               component={ReceptionistQrReaderPage}
+            />
+            <RootStack.Screen
+              name="ReceptionistFormPage"
+              component={ReceptionistFormPage}
             />
           </>
         )}

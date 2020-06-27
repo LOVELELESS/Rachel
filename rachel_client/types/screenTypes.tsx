@@ -26,6 +26,11 @@ export type AddOrEditMeetingPageProps = StackScreenProps<
   'AddOrEditMeetingPage'
 >;
 
+export type NotificationsPageProps = StackScreenProps<
+  RootStackParamList,
+  'NotificationsPage'
+>;
+
 export type ReceptionistWelcomePageProps = StackScreenProps<
   RootStackParamList,
   'ReceptionistWelcomePage'
@@ -36,7 +41,7 @@ export type ReceptionistQrReaderPageProps = StackScreenProps<
   'ReceptionistQrReaderPage'
 >;
 
-export type NotificationsPageProps = StackScreenProps<
+export type ReceptionistFormPageProps = StackScreenProps<
   RootStackParamList,
-  'NotificationsPage'
+  'ReceptionistFormPage'
 >;

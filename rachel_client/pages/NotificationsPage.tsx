@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import {NotificationsPageProps} from '../types/screenTypes';
 import customAxios from '../helpers/customAxios';
 import {AuthContextType} from '../types/contextTypes';
@@ -23,17 +23,49 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
     }, []),
   );
 
+  const onPressResponse = (formid, status) => {
+    customAxios
+      .post(
+        `workspaces/${auth.userSettings.workspaceName}/notifications/${formid}`,
+        {
+          responseToForm: 'response test',
+          finalStatus: status,
+        },
+      )
+      .then((res) => console.log(res));
+  };
+
   const renderContent = () => {
     return notifications.map((notification, i) => {
-      return (
-        <View key={i}>
-          <Text>{'<<<<<<'}</Text>
-          <Text>{notification.id}</Text>
-          <Text>{notification.content}</Text>
-          <Text>{notification.status}</Text>
-          <Text>{'<<<<<<'}</Text>
-        </View>
-      );
+      if (notification.status === 'PENDING') {
+        return (
+          <View key={i}>
+            <Text>{'<<<<<<'}</Text>
+            <Text>{notification.id}</Text>
+            <Text>{notification.content}</Text>
+            <Text>{notification.status}</Text>
+            <Button
+              title="ACCEPT"
+              onPress={() => onPressResponse(i, 'ACCEPT')}
+            />
+            <Button
+              title="REJECT"
+              onPress={() => onPressResponse(i, 'REJECT')}
+            />
+            <Text>{'<<<<<<'}</Text>
+          </View>
+        );
+      } else {
+        return (
+          <View key={i}>
+            <Text>{'<<<<<<'}</Text>
+            <Text>{notification.id}</Text>
+            <Text>{notification.content}</Text>
+            <Text>{notification.status}</Text>
+            <Text>{'<<<<<<'}</Text>
+          </View>
+        );
+      }
     });
   };
 

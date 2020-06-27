@@ -53,6 +53,7 @@ const ReceptionistWelcomePage = ({
           onChangeText={(e) => setToken(e)}
         />
         <Button title="submit" onPress={onPressCheckToken} />
+        <Button title="cancel" onPress={() => navigation.popToTop()} />
       </View>
     ) : (
       <View>
@@ -63,6 +64,7 @@ const ReceptionistWelcomePage = ({
           onChangeText={(e) => setWorkspaceName(e)}
         />
         <Button title="submit" onPress={onPressVerifyWorkspace} />
+        <Button title="cancel" onPress={() => navigation.popToTop()} />
       </View>
     );
   };
@@ -79,7 +81,12 @@ const ReceptionistWelcomePage = ({
           navigation.navigate('ReceptionistQrReaderPage', {workspaceName})
         }
       />
-      <Button title="This is an unscheduled meeting" />
+      <Button
+        title="This is an unscheduled meeting"
+        onPress={() =>
+          navigation.navigate('ReceptionistFormPage', {workspaceName})
+        }
+      />
     </View>
   );
 };
