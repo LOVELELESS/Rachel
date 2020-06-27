@@ -1,9 +1,13 @@
 import dotenv from "dotenv";
-dotenv.config();
-import { app, server } from "./server";
+import express from "express";
 import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes";
 import workspaceRoutes from "./routes/workspaceRoutes";
+
+dotenv.config();
+
+const app = express();
+app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
@@ -16,6 +20,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/auth", authRoutes);
+
 app.use("/workspaces", workspaceRoutes);
 
-server.listen(PORT, () => console.log(`Server started on port ${PORT}!`));
+app.listen(PORT, () => console.log(`Server started on port ${PORT}!`));
