@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import Config from 'react-native-config';
 import {SigninPageScreenProps} from '../types/screenTypes';
-import {SafeAreaView, View, StyleSheet} from 'react-native';
+import {SafeAreaView, View, StyleSheet, Alert} from 'react-native';
 import {Text, SocialIcon, Button} from 'react-native-elements';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {
@@ -16,9 +16,21 @@ GoogleSignin.configure({
 
 const SigninPage = ({route, navigation}: SigninPageScreenProps) => {
   useEffect(() => {
+    /*
     messaging()
       .requestPermission()
       .then((authStatus) => console.log(authStatus));
+      */
+
+    messaging()
+      .subscribeToTopic('test')
+      .then(() => console.log('subscribed to topic'));
+
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      Alert.alert('A new FCM message arrived!', remoteMessage.data.content);
+    });
+
+    return unsubscribe;
   }, []);
 
   return (
