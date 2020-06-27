@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
 import {Alert} from 'react-native';
 import {AuthProvider} from './contexts/AuthContext';
+import {NotificationProvider} from './contexts/NotificationContext';
 import AppNavigation from './AppNavigation';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -46,7 +47,9 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <AppNavigation />
+      <NotificationProvider>
+        <AppNavigation />
+      </NotificationProvider>
     </AuthProvider>
   );
 };
