@@ -39,7 +39,8 @@ const App = () => {
     // When a user receives a push notification and the app is in foreground
     messaging().onMessage(() => {
       console.log('remote msg received');
-      //Alert.alert('Foreground Push Notification opened');
+      //Toast.show({text: 'mesage received', buttonText: 'ok', position: 'top'});
+      Alert.alert('Foreground Push Notification opened');
     });
   }, []);
 
