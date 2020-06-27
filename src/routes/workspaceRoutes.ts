@@ -2,26 +2,37 @@ import express from "express";
 import userRoutes from "./userRoutes";
 import meetingRoutes from "./meetingRoutes";
 import receptionistRoutes from "./receptionistRoutes";
+import notificationRoutes from "./notificationRoutes";
 
 const workspaceRoutes = express.Router();
-workspaceRoutes.use(
-  "/:workspaceName/users",
-  (req, res, next) => {
-    req.body.workspaceName = req.params.workspaceName;
-    next();
-  },
-  userRoutes
-);
+
+const trfWorkspaceName = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  req.body.workspaceName = req.params.workspaceName;
+  next();
+};
+
+workspaceRoutes.use("/:workspaceName/users", trfWorkspaceName, userRoutes);
 
 workspaceRoutes.use(
   "/:workspaceName/receptionist",
-  (req, res, next) => {
-    req.body.workspaceName = req.params.workspaceName;
-    next();
-  },
+  trfWorkspaceName,
   receptionistRoutes
 );
 
-workspaceRoutes.use("/:workspaceName/meetings", meetingRoutes);
+workspaceRoutes.use(
+  "/:workspaceName/meetings",
+  trfWorkspaceName,
+  meetingRoutes
+);
+
+workspaceRoutes.use(
+  "/:workspaceName/notifications",
+  trfWorkspaceName,
+  notificationRoutes
+);
 
 export default workspaceRoutes;

@@ -48,6 +48,14 @@ const WorkspaceSchema = new Schema({
       date: Date,
     },
   ],
+  notifications: [
+    {
+      id: Number,
+      content: String,
+      status: String,
+      response: String,
+    },
+  ],
 });
 
 const WorkspaceModel = mongoose.model<IWorkspace>(
