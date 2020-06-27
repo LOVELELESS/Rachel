@@ -8,31 +8,12 @@ import {
   onGoogleButtonPress,
   onFacebookButtonPress,
 } from '../helpers/AuthHelpers';
-import messaging from '@react-native-firebase/messaging';
 
 GoogleSignin.configure({
   webClientId: Config.WEB_CLIENT_ID,
 });
 
 const SigninPage = ({route, navigation}: SigninPageScreenProps) => {
-  useEffect(() => {
-    /*
-    messaging()
-      .requestPermission()
-      .then((authStatus) => console.log(authStatus));
-      */
-
-    messaging()
-      .subscribeToTopic('test')
-      .then(() => console.log('subscribed to topic'));
-
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      Alert.alert('A new FCM message arrived!', remoteMessage.data.content);
-    });
-
-    return unsubscribe;
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <Text h4 style={styles.title}>

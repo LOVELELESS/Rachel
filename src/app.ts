@@ -29,12 +29,18 @@ app.get("/test", (req, res) => {
       type: "warning",
       content: "A new weather warning has been created!",
     },
-    topic: "test",
+    notification: {
+      title: "Baisc noti",
+      body: "body of noti",
+    },
   };
 
   admin
     .messaging()
-    .send(message)
+    .sendToTopic("test", message, {
+      contentAvailable: true,
+      priority: "high",
+    })
     .then((response) => {
       console.log("Successfully sent message:", response);
       res.json({
