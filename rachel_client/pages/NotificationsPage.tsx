@@ -5,6 +5,7 @@ import {NotificationsPageProps} from '../types/screenTypes';
 import customAxios from '../helpers/customAxios';
 import {AuthContextType} from '../types/contextTypes';
 import {AuthContext} from '../contexts/AuthContext';
+import {deepCopy} from '../helpers/arrayUtils';
 
 const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
   const [notifications, setNotifications] = useState<Array<Object>>([]);
@@ -32,7 +33,15 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
           finalStatus: status,
         },
       )
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        if (res.data.success) {
+          const newNotifications = deepCopy(notifications);
+          newNotifications[formid].response = 'response test';
+          newNotifications[formid].status = status;
+          setNotifications(newNotifications);
+        }
+      });
   };
 
   const renderContent = () => {
@@ -62,6 +71,7 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
             <Text>{notification.id}</Text>
             <Text>{notification.content}</Text>
             <Text>{notification.status}</Text>
+            <Text>{notification.response}</Text>
             <Text>{'<<<<<<'}</Text>
           </View>
         );

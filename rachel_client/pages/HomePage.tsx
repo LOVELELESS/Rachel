@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {HomePageScreenProps} from '../types/screenTypes';
 import {AuthContextType} from '../types/contextTypes';
@@ -12,6 +12,7 @@ import CustomDrawer from '../components/CustomDrawer';
 import customAxios from '../helpers/customAxios';
 import SignOutButton from '../components/SignOutButton';
 import HamburgerMenu from '../components/HamburgerMenu';
+import messaging from '@react-native-firebase/messaging';
 
 const Drawer = createDrawerNavigator();
 
@@ -33,6 +34,29 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
           auth.setUserSettings({
             role: res.data.role,
             workspaceName: res.data.workspaceName,
+          });
+
+          messaging()
+            .subscribeToTopic(`${res.data.workspaceName}-fallback`)
+            .then(() => console.log('subscribed to fallback topic'));
+
+          // When a user tap on a push notification and the app is in background
+          messaging().onNotificationOpenedApp(async (remoteMessage) => {
+            console.log('Background Push Notification opened');
+          });
+
+          // When a user tap on a push notification and the app is CLOSED
+          messaging()
+            .getInitialNotification()
+            .then((remoteMessage) => {
+              if (remoteMessage) {
+                console.log('App Closed Push Notification opened');
+              }
+            });
+
+          messaging().onMessage((msg) => {
+            console.log('received manual form submission');
+            Alert.alert('received manual form submission');
           });
         } else {
           setShowLinkWorkspaceModal(true);

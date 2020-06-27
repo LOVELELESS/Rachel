@@ -74,7 +74,7 @@ notificationRoutes.post("/", (req, res) => {
             const message = {
               data: {
                 type: "warning",
-                content: "A new weather warning has been created!",
+                content,
               },
               notification: {
                 title: "Baisc noti",
@@ -84,7 +84,7 @@ notificationRoutes.post("/", (req, res) => {
 
             admin
               .messaging()
-              .sendToTopic("test", message, {
+              .sendToTopic(`${workspaceName}-fallback`, message, {
                 contentAvailable: true,
                 priority: "high",
               })
@@ -159,7 +159,7 @@ notificationRoutes.post("/:formid/", (req, res) => {
             const message = {
               data: {
                 type: "warning",
-                content: "A new weather warning has been created!",
+                content: responseToForm,
               },
               notification: {
                 title: "Baisc noti",
@@ -169,7 +169,7 @@ notificationRoutes.post("/:formid/", (req, res) => {
 
             admin
               .messaging()
-              .sendToTopic("test", message, {
+              .sendToTopic(`${workspaceName}-receptionist`, message, {
                 contentAvailable: true,
                 priority: "high",
               })

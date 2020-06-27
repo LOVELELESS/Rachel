@@ -17,31 +17,6 @@ const App = () => {
     messaging()
       .requestPermission()
       .then((authStatus) => console.log(authStatus));
-
-    messaging()
-      .subscribeToTopic('test')
-      .then(() => console.log('subscribed to topic'));
-
-    // When a user tap on a push notification and the app is in background
-    messaging().onNotificationOpenedApp(async (remoteMessage) => {
-      console.log('Background Push Notification opened');
-    });
-
-    // When a user tap on a push notification and the app is CLOSED
-    messaging()
-      .getInitialNotification()
-      .then((remoteMessage) => {
-        if (remoteMessage) {
-          console.log('App Closed Push Notification opened');
-        }
-      });
-
-    // When a user receives a push notification and the app is in foreground
-    messaging().onMessage(() => {
-      console.log('remote msg received');
-      //Toast.show({text: 'mesage received', buttonText: 'ok', position: 'top'});
-      Alert.alert('Foreground Push Notification opened');
-    });
   }, []);
 
   return (
