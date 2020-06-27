@@ -7,6 +7,7 @@ import {AuthContext} from '../contexts/AuthContext';
 import {Text, Overlay, Input, Button} from 'react-native-elements';
 import Dashboard from './Dashboard';
 import MeetingsPage from './MeetingsPage';
+import NotificationsPage from './NotificationsPage';
 import CustomDrawer from '../components/CustomDrawer';
 import customAxios from '../helpers/customAxios';
 import SignOutButton from '../components/SignOutButton';
@@ -95,6 +96,10 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
           drawerContent={(props) => <CustomDrawer {...props} />}>
           <Drawer.Screen name="Dashboard" component={Dashboard} />
           <Drawer.Screen name="MeetingsPage" component={MeetingsPage} />
+          <Drawer.Screen
+            name="NotificationsPage"
+            component={NotificationsPage}
+          />
         </Drawer.Navigator>
       );
     }

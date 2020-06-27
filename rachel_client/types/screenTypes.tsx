@@ -35,3 +35,8 @@ export type ReceptionistQrReaderPageProps = StackScreenProps<
   RootStackParamList,
   'ReceptionistQrReaderPage'
 >;
+
+export type NotificationsPageProps = StackScreenProps<
+  RootStackParamList,
+  'NotificationsPage'
+>;

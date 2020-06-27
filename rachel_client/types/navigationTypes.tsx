@@ -11,6 +11,7 @@ export type RootStackParamList = {
       participants: Array<Object>;
     };
   };
+  NotificationsPage: undefined;
   ReceptionistWelcomePage: undefined;
   ReceptionistQrReaderPage: {
     workspaceName: string;

@@ -32,7 +32,6 @@ const AppNavigation = () => {
                 },
               }}
             />
-
             <RootStack.Screen
               name="AddOrEditMeetingPage"
               component={AddOrEditMeetingPage}
