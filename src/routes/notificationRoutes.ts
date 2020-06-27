@@ -9,13 +9,35 @@ admin.initializeApp({
 
 const notificationRoutes = express.Router();
 
+/*
+    GETS ALL NOTIFICATIONS
+
+    req.body 
+        - workspaceName : string
+    res.data 
+        - msg : string
+        - success : boolean     
+        - notifications ?: INotification[]
+*/
 notificationRoutes.get("/", (req, res) => {
   const { workspaceName }: { workspaceName: string } = req.body;
 
-  res.json({
-    msg: "hello world",
-    workspaceName,
-  });
+  WorkspaceModel.findOne({ workspaceName })
+    .then((workspace) => {
+      if (workspace) {
+        return res.json({
+          msg: "Successfully retrieved all notifications",
+          success: true,
+          notifications: workspace.notifications,
+        });
+      } else {
+        res.json({
+          msg: "No such workspace found",
+          success: false,
+        });
+      }
+    })
+    .catch((err) => res.json({ msg: "An error has occured", success: false }));
 });
 
 /*
@@ -28,7 +50,7 @@ notificationRoutes.get("/", (req, res) => {
         - msg : string
         - success : boolean     
 */
-notificationRoutes.post("/form", (req, res) => {
+notificationRoutes.post("/", (req, res) => {
   const {
     workspaceName,
     content,
