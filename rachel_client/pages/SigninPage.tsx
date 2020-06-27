@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Config from 'react-native-config';
 import {SigninPageScreenProps} from '../types/screenTypes';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
@@ -8,12 +8,19 @@ import {
   onGoogleButtonPress,
   onFacebookButtonPress,
 } from '../helpers/AuthHelpers';
+import messaging from '@react-native-firebase/messaging';
 
 GoogleSignin.configure({
   webClientId: Config.WEB_CLIENT_ID,
 });
 
 const SigninPage = ({route, navigation}: SigninPageScreenProps) => {
+  useEffect(() => {
+    messaging()
+      .requestPermission()
+      .then((authStatus) => console.log(authStatus));
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Text h4 style={styles.title}>
