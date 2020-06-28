@@ -4,7 +4,7 @@ interface IUser {
   userid: string;
   displayName: string;
   email: string;
-  role: "EMPLOYEE" | "ADMIN";
+  role: "EMPLOYEE" | "FALLBACK" | "ADMIN";
   meetings: Array<IMeeting>;
 }
 

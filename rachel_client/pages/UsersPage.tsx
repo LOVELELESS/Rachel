@@ -64,13 +64,34 @@ const UsersPage = ({route, navigation}: UsersPageProps) => {
           <Text>{currUser.displayName}</Text>
           <Text>{currUser.email}</Text>
           {currUser.role === 'EMPLOYEE' && (
-            <Button title="make admin" onPress={() => changeRole('ADMIN')} />
+            <>
+              <Button title="make admin" onPress={() => changeRole('ADMIN')} />
+              <Button
+                title="make fallback"
+                onPress={() => changeRole('FALLBACK')}
+              />
+            </>
+          )}
+          {currUser.role === 'FALLBACK' && (
+            <>
+              <Button title="make admin" onPress={() => changeRole('ADMIN')} />
+              <Button
+                title="make employee"
+                onPress={() => changeRole('EMPLOYEE')}
+              />
+            </>
           )}
           {currUser.role === 'ADMIN' && (
-            <Button
-              title="make employee"
-              onPress={() => changeRole('EMPLOYEE')}
-            />
+            <>
+              <Button
+                title="make employee"
+                onPress={() => changeRole('EMPLOYEE')}
+              />
+              <Button
+                title="make fallback"
+                onPress={() => changeRole('FALLBACK')}
+              />
+            </>
           )}
           <Button title="ok" onPress={() => setShowOverlay(false)} />
         </>

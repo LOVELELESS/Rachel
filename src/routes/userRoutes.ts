@@ -48,7 +48,7 @@ userRoutes.get("/", (req, res) => {
 
     req.body 
         - workspaceName : string
-        - role : "ADMIN" | "EMPLOYEE"
+        - role : "ADMIN" | "FALLBACK" | "EMPLOYEE"
     res.data 
         - msg : string
         - success : boolean     
@@ -57,7 +57,10 @@ userRoutes.put("/:userid/roles", (req, res) => {
   const {
     workspaceName,
     role,
-  }: { workspaceName: string; role: "ADMIN" | "EMPLOYEE" } = req.body;
+  }: {
+    workspaceName: string;
+    role: "ADMIN" | "FALLBACK" | "EMPLOYEE";
+  } = req.body;
   const userid: string = req.params.userid;
   WorkspaceModel.findOne({
     workspaceName,
@@ -70,7 +73,7 @@ userRoutes.put("/:userid/roles", (req, res) => {
         );
         if (
           workspace.users[newAdminIndx].role === "ADMIN" &&
-          role === "EMPLOYEE"
+          (role === "EMPLOYEE" || role === "FALLBACK")
         ) {
           const adminCount = workspace.users.filter(
             (user) => user.role === "ADMIN"

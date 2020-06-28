@@ -37,7 +37,7 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
             workspaceName: res.data.workspaceName,
           });
 
-          if (res.data.role === 'ADMIN') {
+          if (res.data.role === 'ADMIN' || res.data.role === 'FALLBACK') {
             messaging()
               .subscribeToTopic(`${res.data.workspaceName}-fallback`)
               .then(() => console.log('subscribed to fallback topic'));
@@ -123,12 +123,17 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
           drawerContent={(props) => <CustomDrawer {...props} />}>
           <Drawer.Screen name="Dashboard" component={Dashboard} />
           <Drawer.Screen name="MeetingsPage" component={MeetingsPage} />
-          {auth.userSettings.role === 'ADMIN' && (
+          {(auth.userSettings.role === 'ADMIN' ||
+            auth.userSettings.role === 'FALLBACK') && (
             <>
               <Drawer.Screen
                 name="NotificationsPage"
                 component={NotificationsPage}
               />
+            </>
+          )}
+          {auth.userSettings.role === 'ADMIN' && (
+            <>
               <Drawer.Screen name="UsersPage" component={UsersPage} />
             </>
           )}
