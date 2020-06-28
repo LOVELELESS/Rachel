@@ -31,6 +31,8 @@ export type NotificationsPageProps = StackScreenProps<
   'NotificationsPage'
 >;
 
+export type UsersPageProps = StackScreenProps<RootStackParamList, 'UsersPage'>;
+
 export type ReceptionistWelcomePageProps = StackScreenProps<
   RootStackParamList,
   'ReceptionistWelcomePage'

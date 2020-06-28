@@ -12,6 +12,7 @@ export type RootStackParamList = {
     };
   };
   NotificationsPage: undefined;
+  UsersPage: undefined;
   ReceptionistWelcomePage: undefined;
   ReceptionistQrReaderPage: {
     workspaceName: string;
