@@ -37,28 +37,30 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
             workspaceName: res.data.workspaceName,
           });
 
-          messaging()
-            .subscribeToTopic(`${res.data.workspaceName}-fallback`)
-            .then(() => console.log('subscribed to fallback topic'));
+          if (res.data.role === 'ADMIN') {
+            messaging()
+              .subscribeToTopic(`${res.data.workspaceName}-fallback`)
+              .then(() => console.log('subscribed to fallback topic'));
 
-          // When a user tap on a push notification and the app is in background
-          messaging().onNotificationOpenedApp(async (remoteMessage) => {
-            console.log('Background Push Notification opened');
-          });
-
-          // When a user tap on a push notification and the app is CLOSED
-          messaging()
-            .getInitialNotification()
-            .then((remoteMessage) => {
-              if (remoteMessage) {
-                console.log('App Closed Push Notification opened');
-              }
+            // When a user tap on a push notification and the app is in background
+            messaging().onNotificationOpenedApp(async (remoteMessage) => {
+              console.log('Background Push Notification opened');
             });
 
-          messaging().onMessage((msg) => {
-            console.log('received manual form submission');
-            Alert.alert('received manual form submission');
-          });
+            // When a user tap on a push notification and the app is CLOSED
+            messaging()
+              .getInitialNotification()
+              .then((remoteMessage) => {
+                if (remoteMessage) {
+                  console.log('App Closed Push Notification opened');
+                }
+              });
+
+            messaging().onMessage((msg) => {
+              console.log('received manual form submission');
+              Alert.alert('received manual form submission');
+            });
+          }
         } else {
           setShowLinkWorkspaceModal(true);
         }
