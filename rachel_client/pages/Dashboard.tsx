@@ -10,8 +10,10 @@ import {Text, Button, Icon} from 'react-native-elements';
 import {Footer, FooterTab, Header, Content, Container} from 'native-base';
 import MeetingCard from '../components/MeetingCard';
 import {deepCopy} from '../helpers/arrayUtils';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 const Dashboard = ({route, navigation}: DashboardScreenProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [meetings, setMeetings] = useState<Array<Object>>([]);
   const auth: AuthContextType = useContext(AuthContext);
 
@@ -61,23 +63,37 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text h2 style={styles.header}>
-        Welcome, {auth.user?.displayName}!
-      </Text>
-      <ScrollView>{renderMeetingCards()}</ScrollView>
-      <Button
-        style={styles.addMeeting}
-        buttonStyle={styles.addMeetingButton}
-        titleStyle={styles.addMeetingTitle}
-        title="Add Meeting"
-        onPress={() => navigation.navigate('AddOrEditMeetingPage')}
-        icon={{name: 'group-add', size: 30, color: 'white'}}
-      />
+    <View
+      style={{
+        ...styles.container,
+        justifyContent: isLoading ? 'center' : 'flex-start',
+        backgroundColor: isLoading ? 'lightgrey' : 'white',
+      }}>
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <>
+          <Text h2 style={styles.header}>
+            Welcome, {auth.user?.displayName}!
+          </Text>
+          <ScrollView>{renderMeetingCards()}</ScrollView>
+          <Button
+            style={styles.addMeeting}
+            buttonStyle={styles.addMeetingButton}
+            titleStyle={styles.addMeetingTitle}
+            title="Add Meeting"
+            onPress={() => navigation.navigate('AddOrEditMeetingPage')}
+            icon={{name: 'group-add', size: 30, color: 'white'}}
+          />
+          )
+        </>
+      )}
     </View>
   );
 };
+/*
 
+      */
 export default Dashboard;
 
 const styles = StyleSheet.create({
