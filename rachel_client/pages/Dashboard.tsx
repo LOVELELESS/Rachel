@@ -1,15 +1,13 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {ScrollView, View, StyleSheet} from 'react-native';
+import React, {useState, useContext} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {DashboardScreenProps} from '../types/screenTypes';
 import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
+import {DashboardScreenProps} from '../types/screenTypes';
 import customAxios from '../helpers/customAxios';
-import {SafeAreaView} from 'react-native';
-import {Text, Button, Icon} from 'react-native-elements';
-import {Footer, FooterTab, Header, Content, Container} from 'native-base';
-import MeetingCard from '../components/MeetingCard';
 import {deepCopy} from '../helpers/arrayUtils';
+import {ScrollView, View, StyleSheet} from 'react-native';
+import {Text, Button} from 'react-native-elements';
+import MeetingCard from '../components/MeetingCard';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 const Dashboard = ({route, navigation}: DashboardScreenProps) => {
