@@ -1,19 +1,19 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Alert, StyleSheet} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {HomePageScreenProps} from '../types/screenTypes';
 import {AuthContextType} from '../types/contextTypes';
 import {AuthContext} from '../contexts/AuthContext';
+import messaging from '@react-native-firebase/messaging';
+import {HomePageScreenProps} from '../types/screenTypes';
+import customAxios from '../helpers/customAxios';
+import {View, Alert, StyleSheet} from 'react-native';
 import {Text, Overlay, Input, Button} from 'react-native-elements';
 import Dashboard from './Dashboard';
 import MeetingsPage from './MeetingsPage';
 import NotificationsPage from './NotificationsPage';
 import UsersPage from './UsersPage';
 import CustomDrawer from '../components/CustomDrawer';
-import customAxios from '../helpers/customAxios';
 import SignOutButton from '../components/SignOutButton';
 import HamburgerMenu from '../components/HamburgerMenu';
-import messaging from '@react-native-firebase/messaging';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 const Drawer = createDrawerNavigator();
@@ -32,7 +32,6 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
         userid: auth.user?.uid,
       })
       .then((res) => {
-        console.log('here', res);
         if (res.data.success) {
           auth.setUserSettings({
             role: res.data.role,

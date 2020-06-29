@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button} from 'react-native-elements';
 import {onSignOutPress} from '../helpers/AuthHelpers';
+import {Button} from 'react-native-elements';
 import {StyleSheet} from 'react-native';
 
 const SignOutButton = ({
