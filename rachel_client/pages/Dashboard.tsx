@@ -26,6 +26,7 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
         .then((res) => {
           if (res.data.success) {
             setMeetings(res.data.meetings);
+            setIsLoading(false);
           }
         });
     }, []),
@@ -85,15 +86,12 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
             onPress={() => navigation.navigate('AddOrEditMeetingPage')}
             icon={{name: 'group-add', size: 30, color: 'white'}}
           />
-          )
         </>
       )}
     </View>
   );
 };
-/*
 
-      */
 export default Dashboard;
 
 const styles = StyleSheet.create({
