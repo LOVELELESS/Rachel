@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Alert} from 'react-native';
+import {View, Alert, StyleSheet} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {HomePageScreenProps} from '../types/screenTypes';
 import {AuthContextType} from '../types/contextTypes';
@@ -14,6 +14,7 @@ import customAxios from '../helpers/customAxios';
 import SignOutButton from '../components/SignOutButton';
 import HamburgerMenu from '../components/HamburgerMenu';
 import messaging from '@react-native-firebase/messaging';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 const Drawer = createDrawerNavigator();
 
@@ -31,6 +32,7 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
         userid: auth.user?.uid,
       })
       .then((res) => {
+        console.log('here', res);
         if (res.data.success) {
           auth.setUserSettings({
             role: res.data.role,
@@ -91,9 +93,14 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
         headerRight: undefined,
       });
       return (
-        <View>
-          <Text>IS LOADING</Text>
-          <SignOutButton />
+        <View style={styles.loadingContainer}>
+          <LoadingIndicator />
+          <SignOutButton
+            title="Cancel"
+            type="clear"
+            icon={{name: 'close', color: 'red'}}
+            titleStyle={styles.signOutTitle}
+          />
         </View>
       );
     } else if (showLinkWorkspaceModal) {
@@ -146,3 +153,14 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
 };
 
 export default HomePage;
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'lightgrey',
+  },
+  signOutTitle: {
+    color: 'red',
+  },
+});

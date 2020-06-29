@@ -3,10 +3,23 @@ import {Button} from 'react-native-elements';
 import {onSignOutPress} from '../helpers/AuthHelpers';
 import {StyleSheet} from 'react-native';
 
-const SignOutButton = () => {
+const SignOutButton = ({
+  title = 'Sign Out',
+  type = 'solid',
+  icon,
+  titleStyle,
+}: {
+  title: string;
+  type: string;
+  icon?: Object;
+  titleStyle?: Object;
+}) => {
   return (
     <Button
-      title="Sign Out"
+      title={title}
+      type={type}
+      icon={icon}
+      titleStyle={titleStyle}
       style={styles.signOutButton}
       onPress={onSignOutPress}
     />

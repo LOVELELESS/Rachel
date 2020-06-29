@@ -17,6 +17,7 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      setIsLoading(true);
       customAxios
         .get(
           `workspaces/${auth.userSettings.workspaceName}/users/${auth.user.uid}/meetings/`,
