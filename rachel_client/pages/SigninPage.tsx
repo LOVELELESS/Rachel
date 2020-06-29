@@ -38,12 +38,12 @@ const SigninPage = ({route, navigation}: SigninPageScreenProps) => {
           reverse
           raised
         />
-        <Text h3 style={styles.subtitle1}>
+        <Text h3 style={styles.subtitle2}>
           Launch E-Receptionist!
         </Text>
       </TouchableOpacity>
       <View>
-        <Text h4 style={styles.subtitle2}>
+        <Text h4 style={styles.subtitle3}>
           Please sign in to access your account:
         </Text>
         <View style={styles.loginButtons}>
@@ -85,6 +85,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   subtitle2: {
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+  },
+  subtitle3: {
     textAlign: 'center',
     paddingBottom: 10,
   },
