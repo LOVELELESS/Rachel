@@ -50,7 +50,7 @@ const MeetingCard = ({navigation, data, onDelete}: any) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Overlay
         isVisible={viewParticipants}
         onBackdropPress={() => setViewParticipants(false)}
@@ -119,6 +119,10 @@ const MeetingCard = ({navigation, data, onDelete}: any) => {
 export default MeetingCard;
 
 const styles = StyleSheet.create({
+  container: {
+    width: '95%',
+    alignSelf: 'center',
+  },
   date: {
     fontWeight: 'bold',
     fontSize: 16,

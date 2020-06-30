@@ -4,6 +4,7 @@ import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
 import {Text, Input, Button, Divider} from 'react-native-elements';
 import customAxios from '../helpers/customAxios';
+import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from '../helpers/arrayUtils';
 import {AddOrEditMeetingPageProps} from '../types/screenTypes';
