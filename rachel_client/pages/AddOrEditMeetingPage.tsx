@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {ScrollView, View, Platform} from 'react-native';
+import {ScrollView, View, Platform, StyleSheet} from 'react-native';
 import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
 import {Text, Input, Button, Divider} from 'react-native-elements';
@@ -56,7 +56,6 @@ const AddOrEditMeetingPage = ({
         });
     } else {
       // creating new meeting
-      console.log('here');
       meetingid = uuidv4();
       customAxios
         .post(
@@ -95,7 +94,9 @@ const AddOrEditMeetingPage = ({
         <View key={i}>
           <Divider />
           <Input
-            placeholder="participant name"
+            label={`Participant ${i + 1} Name`}
+            placeholder="John Doe"
+            leftIcon={{name: 'user', type: 'font-awesome'}}
             value={participant.name ? participant.name : ''}
             onChangeText={(e) => {
               let newParticipants = deepCopy(participants);
@@ -104,7 +105,9 @@ const AddOrEditMeetingPage = ({
             }}
           />
           <Input
-            placeholder="email"
+            label={`Participant ${i + 1} Email`}
+            placeholder="john.doe@abc.com"
+            leftIcon={{name: 'mail'}}
             value={participant.email ? participant.email : ''}
             onChangeText={(e) => {
               let newParticipants = deepCopy(participants);
@@ -113,7 +116,9 @@ const AddOrEditMeetingPage = ({
             }}
           />
           <Input
-            placeholder="phone number (optional)"
+            label={`Participant ${i + 1} Phone Numer (Optional)`}
+            placeholder="912345678"
+            leftIcon={{name: 'phone'}}
             value={participant.phoneNumber ? participant.phoneNumber : ''}
             onChangeText={(e) => {
               let newParticipants = deepCopy(participants);
@@ -127,7 +132,7 @@ const AddOrEditMeetingPage = ({
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <Input
         label="The Meeting subject / title"
         placeholder="Client meeting with ABC company"
@@ -157,3 +162,9 @@ const AddOrEditMeetingPage = ({
 };
 
 export default AddOrEditMeetingPage;
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 20,
+  },
+});
