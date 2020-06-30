@@ -5,7 +5,6 @@ import customAxios from '../helpers/customAxios';
 import {View, StyleSheet} from 'react-native';
 import {Text, Overlay, ListItem, Icon, Button} from 'react-native-elements';
 import {Card, CardItem, Body, Right, Left} from 'native-base';
-import {toString} from 'qrcode';
 
 const MeetingCard = ({navigation, data, onDelete}: any) => {
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);

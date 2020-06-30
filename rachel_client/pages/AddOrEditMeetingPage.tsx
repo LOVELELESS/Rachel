@@ -1,14 +1,14 @@
 import React, {useState, useContext} from 'react';
-import {ScrollView, View, Platform, StyleSheet} from 'react-native';
 import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
-import {Text, Input, Button, Divider} from 'react-native-elements';
+import {AddOrEditMeetingPageProps} from '../types/screenTypes';
 import customAxios from '../helpers/customAxios';
+import {deepCopy} from '../helpers/arrayUtils';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
-import {deepCopy} from '../helpers/arrayUtils';
-import {AddOrEditMeetingPageProps} from '../types/screenTypes';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {ScrollView, View, StyleSheet} from 'react-native';
+import {Input, Button} from 'react-native-elements';
 
 const AddOrEditMeetingPage = ({
   route,
