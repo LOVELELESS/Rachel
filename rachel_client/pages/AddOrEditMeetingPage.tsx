@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, Platform} from 'react-native';
 import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
 import {Text, Input, Button, Divider} from 'react-native-elements';
@@ -129,12 +129,16 @@ const AddOrEditMeetingPage = ({
   return (
     <ScrollView>
       <Input
-        placeholder="title of meeting"
+        label="The Meeting subject / title"
+        placeholder="Client meeting with ABC company"
+        leftIcon={{name: 'title'}}
         onChangeText={(e) => setTitle(e)}
         value={title}
       />
       <Input
-        placeholder="description of meeting"
+        label="Brief description of the meeting"
+        placeholder="Go over 4th quarter financial report"
+        leftIcon={{name: 'description'}}
         onChangeText={(e) => setDescription(e)}
         value={description}
       />
