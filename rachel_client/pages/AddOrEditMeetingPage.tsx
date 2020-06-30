@@ -92,7 +92,6 @@ const AddOrEditMeetingPage = ({
     return participants.map((participant, i) => {
       return (
         <View key={i}>
-          <Divider />
           <Input
             label={`Participant ${i + 1} Name`}
             placeholder="John Doe"
@@ -149,14 +148,21 @@ const AddOrEditMeetingPage = ({
       />
       {renderParticipantsInput()}
       <Button
-        title="add 1 more participant"
+        title="Add another Participant"
         onPress={(e) => {
           let newParticipants = deepCopy(participants);
           newParticipants.push({});
           setParticipants(newParticipants);
         }}
+        icon={{name: 'person-add', color: 'white'}}
+        style={styles.addButton}
       />
-      <Button title="submit" onPress={onPressSubmit} />
+      <Button
+        title="Submit"
+        onPress={onPressSubmit}
+        icon={{name: 'check-circle', color: 'white'}}
+        style={styles.submitButton}
+      />
     </ScrollView>
   );
 };
@@ -166,5 +172,16 @@ export default AddOrEditMeetingPage;
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
+  },
+  addButton: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 10,
+    paddingBottom: 10,
+  },
+  submitButton: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 40,
   },
 });
