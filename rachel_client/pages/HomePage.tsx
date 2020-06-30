@@ -128,7 +128,6 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
           drawerPosition="right"
           drawerContent={(props) => <CustomDrawer {...props} />}>
           <Drawer.Screen name="Dashboard" component={Dashboard} />
-          <Drawer.Screen name="MeetingsPage" component={MeetingsPage} />
           {(auth.userSettings.role === 'ADMIN' ||
             auth.userSettings.role === 'FALLBACK') && (
             <>

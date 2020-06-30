@@ -5,6 +5,7 @@ import customAxios from '../helpers/customAxios';
 import {View, StyleSheet} from 'react-native';
 import {Text, Overlay, ListItem, Icon, Button} from 'react-native-elements';
 import {Card, CardItem, Body, Right, Left} from 'native-base';
+import {toString} from 'qrcode';
 
 const MeetingCard = ({navigation, data, onDelete}: any) => {
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
@@ -51,6 +52,24 @@ const MeetingCard = ({navigation, data, onDelete}: any) => {
     ));
   };
 
+  const renderReadableDate = () => {
+    const dateStr = data.date;
+    const date = new Date(dateStr);
+    let hr = date.getHours().toString();
+    if (hr.length < 2) {
+      hr = '0' + hr;
+    }
+    let min = date.getMinutes().toString();
+    if (min.length < 2) {
+      min = '0' + min;
+    }
+    return (
+      <Text style={styles.date} numberOfLines={2}>
+        {`${date.toLocaleDateString()}, ${hr}${min}`}
+      </Text>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Overlay
@@ -72,15 +91,11 @@ const MeetingCard = ({navigation, data, onDelete}: any) => {
       <Card>
         <CardItem>
           <Left>
-            <Text h4 numberOfLines={1}>
+            <Text style={styles.title} numberOfLines={1}>
               {data.meetingTitle}
             </Text>
           </Left>
-          <Right>
-            <Text style={styles.date} numberOfLines={2}>
-              {data.meetingDate}
-            </Text>
-          </Right>
+          <Right>{renderReadableDate()}</Right>
         </CardItem>
         <CardItem>
           <Body>
@@ -124,6 +139,10 @@ const styles = StyleSheet.create({
   container: {
     width: '95%',
     alignSelf: 'center',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
   },
   date: {
     fontWeight: 'bold',

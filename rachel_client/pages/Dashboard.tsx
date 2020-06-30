@@ -74,8 +74,8 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
         <LoadingIndicator />
       ) : (
         <>
-          <Text h2 style={styles.header}>
-            Welcome, {auth.user?.displayName}!
+          <Text h4 style={styles.header}>
+            Welcome, {auth.user?.displayName}! Here are your scheduled meetings.
           </Text>
           <ScrollView>{renderMeetingCards()}</ScrollView>
           <Button
@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    textAlign: 'center',
     padding: 20,
   },
   noMeetingsText: {
