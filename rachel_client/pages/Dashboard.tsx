@@ -75,7 +75,8 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
       ) : (
         <>
           <Text h4 style={styles.header}>
-            Welcome, {auth.user?.displayName}! Here are your scheduled meetings.
+            Welcome, {auth.user?.displayName}!{' '}
+            {meetings.length > 0 ? 'Here are your scheduled meetings.' : ''}
           </Text>
           <ScrollView>{renderMeetingCards()}</ScrollView>
           <Button
