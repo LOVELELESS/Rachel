@@ -2,9 +2,8 @@ import React, {useState, useContext} from 'react';
 import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
 import {View, StyleSheet} from 'react-native';
-import {Text, Divider} from 'react-native-elements';
+import {Text, Overlay, ListItem, Icon, Button} from 'react-native-elements';
 import {Card, CardItem, Body, Right, Left} from 'native-base';
-import {Icon} from 'react-native-elements';
 import customAxios from '../helpers/customAxios';
 
 const MeetingCard = ({navigation, data, onDelete}: any) => {
@@ -35,67 +34,83 @@ const MeetingCard = ({navigation, data, onDelete}: any) => {
     });
   };
 
+  const renderParticipantsList = () => {
+    return data.participants.map((participant, i) => (
+      <ListItem
+        key={i}
+        title={participant.name}
+        subtitle={
+          participant.phoneNumber
+            ? `${participant.email}, ${participant.phoneNumber}`
+            : participant.email
+        }
+        leftIcon={{name: 'user', type: 'font-awesome'}}
+      />
+    ));
+  };
+
   return (
-    <Card>
-      <CardItem>
-        <Left>
-          <Text h4 numberOfLines={1}>
-            {data.meetingTitle}
-          </Text>
-        </Left>
-        <Right>
-          <Text style={styles.date} numberOfLines={2}>
-            {data.meetingDate}
-          </Text>
-        </Right>
-      </CardItem>
-      <CardItem>
-        <Body>
-          <Text numberOfLines={4}>{data.meetingDescription}</Text>
-        </Body>
-      </CardItem>
-      <CardItem button onPress={() => setViewParticipants(!viewParticipants)}>
-        <Text>{'>>View participants<<<'}</Text>
-      </CardItem>
-      {viewParticipants && (
+    <View>
+      <Overlay
+        isVisible={viewParticipants}
+        onBackdropPress={() => setViewParticipants(false)}
+        overlayStyle={styles.overlay}>
+        <View>
+          {renderParticipantsList()}
+          <Button
+            title="cancel"
+            type="outline"
+            buttonStyle={styles.cancelButton}
+            titleStyle={styles.cancelTitle}
+            icon={{name: 'close', color: 'red'}}
+            onPress={() => setViewParticipants(false)}
+          />
+        </View>
+      </Overlay>
+      <Card>
+        <CardItem>
+          <Left>
+            <Text h4 numberOfLines={1}>
+              {data.meetingTitle}
+            </Text>
+          </Left>
+          <Right>
+            <Text style={styles.date} numberOfLines={2}>
+              {data.meetingDate}
+            </Text>
+          </Right>
+        </CardItem>
         <CardItem>
           <Body>
-            {data.participants.map((participant, i) => {
-              if (participant.phoneNumber) {
-                return (
-                  <View key={i}>
-                    <Text>Name: {participant.name}</Text>
-                    <Text>Email: {participant.email}</Text>
-                    <Text>Phone Number: {participant.phoneNumber}</Text>
-                  </View>
-                );
-              } else {
-                return (
-                  <View key={i}>
-                    <Text>Name: {participant.name}</Text>
-                    <Text>Email: {participant.email}</Text>
-                  </View>
-                );
-              }
-            })}
+            <Text numberOfLines={4}>{data.meetingDescription}</Text>
           </Body>
         </CardItem>
-      )}
-      <CardItem footer>
-        <Left>
-          <Text numberOfLines={1}>ID: {data.meetingId}</Text>
-        </Left>
-        <Right style={styles.footerRight}>
-          <Icon
-            name="delete"
-            color="#d9534f"
-            onPress={onPressDelete}
-            style={styles.icon}
-          />
-          <Icon name="edit" color="green" onPress={onPressEdit} />
-        </Right>
-      </CardItem>
-    </Card>
+        <CardItem>
+          <Left>
+            <CardItem
+              button
+              style={styles.viewParticipantsContainer}
+              onPress={() => setViewParticipants(true)}>
+              <Text style={styles.viewParticipantsText}>View participants</Text>
+            </CardItem>
+          </Left>
+        </CardItem>
+        <CardItem footer>
+          <Left>
+            <Text numberOfLines={1}>ID: {data.meetingId}</Text>
+          </Left>
+          <Right style={styles.footerRight}>
+            <Icon
+              name="delete"
+              color="#d9534f"
+              onPress={onPressDelete}
+              style={styles.icon}
+            />
+            <Icon name="edit" color="green" onPress={onPressEdit} />
+          </Right>
+        </CardItem>
+      </Card>
+    </View>
   );
 };
 
@@ -112,5 +127,20 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 5,
+  },
+  overlay: {
+    width: '80%',
+  },
+  viewParticipantsContainer: {
+    backgroundColor: '#0074d9',
+  },
+  viewParticipantsText: {
+    color: 'white',
+  },
+  cancelTitle: {
+    color: 'red',
+  },
+  cancelButton: {
+    borderColor: 'red',
   },
 });
