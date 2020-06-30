@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^2.5.0",
     "@react-native-community/google-signin": "^4.0.3",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-firebase/app": "^7.3.1",
@@ -28,6 +29,7 @@
     "react-native-fbsdk": "^2.0.0",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-get-random-values": "^1.4.0",
+    "react-native-modal-datetime-picker": "^8.7.1",
     "react-native-permissions": "^2.1.5",
     "react-native-qrcode-scanner": "^1.4.1",
     "react-native-reanimated": "^1.9.0",

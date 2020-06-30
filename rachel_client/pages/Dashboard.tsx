@@ -51,6 +51,7 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
             meetingDescription: meeting.description,
             meetingId: meeting.meetingid,
             participants: meeting.participants,
+            date: meeting.date,
           }}
           onDelete={() => {
             let newMeetings = deepCopy(meetings);

@@ -9,6 +9,7 @@ export type RootStackParamList = {
       description: string;
       meetingid: string;
       participants: Array<Object>;
+      date: string;
     };
   };
   NotificationsPage: undefined;

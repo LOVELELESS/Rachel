@@ -24,12 +24,14 @@ const MeetingCard = ({navigation, data, onDelete}: any) => {
   };
 
   const onPressEdit = () => {
+    console.log(data.date);
     navigation.navigate('AddOrEditMeetingPage', {
       meetingData: {
         title: data.meetingTitle,
         description: data.meetingDescription,
         meetingid: data.meetingId,
         participants: data.participants,
+        date: data.date,
       },
     });
   };

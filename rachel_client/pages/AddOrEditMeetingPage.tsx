@@ -8,6 +8,7 @@ import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from '../helpers/arrayUtils';
 import {AddOrEditMeetingPageProps} from '../types/screenTypes';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const AddOrEditMeetingPage = ({
   route,
@@ -18,12 +19,19 @@ const AddOrEditMeetingPage = ({
   let initalTitle = '';
   let initialDescription = '';
   let initialParticipants = [{}];
+  let initialDate = new Date();
+  let initialHasSetDate = false;
   if (route.params) {
     initalTitle = route.params.meetingData.title;
     initialDescription = route.params.meetingData.description;
     initialParticipants = route.params.meetingData.participants;
+    initialDate = new Date(route.params.meetingData.date);
+    initialHasSetDate = true;
   }
 
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+  const [hasSetDate, setHasSetDate] = useState<boolean>(initialHasSetDate);
+  const [date, setDate] = useState<Date>(initialDate);
   const [title, setTitle] = useState<string>(initalTitle);
   const [description, setDescription] = useState<string>(initialDescription);
   const [participants, setParticipants] = useState<Array<Object>>(
@@ -45,7 +53,7 @@ const AddOrEditMeetingPage = ({
             title,
             description,
             participants,
-            date: Date.now(),
+            date,
           },
         )
         .then((res) => {
@@ -67,7 +75,7 @@ const AddOrEditMeetingPage = ({
             title,
             description,
             participants,
-            date: Date.now(),
+            date,
           },
         )
         .then((res) => {
@@ -132,6 +140,18 @@ const AddOrEditMeetingPage = ({
 
   return (
     <ScrollView style={styles.container}>
+      <DateTimePickerModal
+        isVisible={showDatePicker}
+        mode="datetime"
+        onCancel={() => setShowDatePicker(false)}
+        onConfirm={(datetime) => {
+          console.log(datetime);
+          setDate(datetime);
+          setHasSetDate(true);
+          setShowDatePicker(false);
+        }}
+        date={date}
+      />
       <Input
         label="The Meeting subject / title"
         placeholder="Client meeting with ABC company"
@@ -155,9 +175,16 @@ const AddOrEditMeetingPage = ({
           setParticipants(newParticipants);
         }}
         icon={{name: 'person-add', color: 'white'}}
-        style={styles.addButton}
+        style={styles.button}
       />
       <Button
+        title="Choose Date and Time of Meeting (Compulsory)"
+        icon={{name: 'schedule', color: 'white'}}
+        onPress={() => setShowDatePicker(true)}
+        style={styles.button}
+      />
+      <Button
+        disabled={!hasSetDate}
         title="Submit"
         onPress={onPressSubmit}
         icon={{name: 'check-circle', color: 'white'}}
@@ -173,10 +200,9 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
   },
-  addButton: {
+  button: {
     paddingLeft: 20,
     paddingRight: 20,
-    marginTop: 10,
     paddingBottom: 10,
   },
   submitButton: {
