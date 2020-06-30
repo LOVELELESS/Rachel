@@ -1,10 +1,10 @@
 import React, {useState, useContext} from 'react';
 import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
+import customAxios from '../helpers/customAxios';
 import {View, StyleSheet} from 'react-native';
 import {Text, Overlay, ListItem, Icon, Button} from 'react-native-elements';
 import {Card, CardItem, Body, Right, Left} from 'native-base';
-import customAxios from '../helpers/customAxios';
 
 const MeetingCard = ({navigation, data, onDelete}: any) => {
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
@@ -97,7 +97,9 @@ const MeetingCard = ({navigation, data, onDelete}: any) => {
         </CardItem>
         <CardItem footer>
           <Left>
-            <Text numberOfLines={1}>ID: {data.meetingId}</Text>
+            <Text numberOfLines={1} style={styles.meetingid}>
+              ID: {data.meetingId}
+            </Text>
           </Left>
           <Right style={styles.footerRight}>
             <Icon
@@ -121,26 +123,29 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  footerRight: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  icon: {
-    marginRight: 5,
-  },
-  overlay: {
-    width: '80%',
-  },
   viewParticipantsContainer: {
     backgroundColor: '#0074d9',
   },
   viewParticipantsText: {
     color: 'white',
   },
+  overlay: {
+    width: '80%',
+  },
   cancelTitle: {
     color: 'red',
   },
   cancelButton: {
     borderColor: 'red',
+  },
+  meetingid: {
+    fontWeight: '300',
+  },
+  footerRight: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  icon: {
+    marginRight: 5,
   },
 });
