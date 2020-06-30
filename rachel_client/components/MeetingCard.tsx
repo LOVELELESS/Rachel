@@ -1,12 +1,13 @@
 import React, {useState, useContext} from 'react';
 import {AuthContext} from '../contexts/AuthContext';
 import {AuthContextType} from '../types/contextTypes';
-import {View} from 'react-native';
-import {Card, CardItem, Body, Text, Right, Left} from 'native-base';
+import {View, StyleSheet} from 'react-native';
+import {Text, Divider} from 'react-native-elements';
+import {Card, CardItem, Body, Right, Left} from 'native-base';
 import {Icon} from 'react-native-elements';
 import customAxios from '../helpers/customAxios';
 
-const MeetingCard = ({navigation, data, onDelete}) => {
+const MeetingCard = ({navigation, data, onDelete}: any) => {
   const [viewParticipants, setViewParticipants] = useState<boolean>(false);
   const auth: AuthContextType = useContext(AuthContext);
 
@@ -38,19 +39,19 @@ const MeetingCard = ({navigation, data, onDelete}) => {
     <Card>
       <CardItem>
         <Left>
-          <CardItem header>
-            <Text>{data.meetingTitle}</Text>
-          </CardItem>
+          <Text h4 numberOfLines={1}>
+            {data.meetingTitle}
+          </Text>
         </Left>
         <Right>
-          <CardItem header>
-            <Text>{data.meetingDate}</Text>
-          </CardItem>
+          <Text style={styles.date} numberOfLines={2}>
+            {data.meetingDate}
+          </Text>
         </Right>
       </CardItem>
       <CardItem>
         <Body>
-          <Text>{data.meetingDescription}</Text>
+          <Text numberOfLines={4}>{data.meetingDescription}</Text>
         </Body>
       </CardItem>
       <CardItem button onPress={() => setViewParticipants(!viewParticipants)}>
@@ -81,14 +82,35 @@ const MeetingCard = ({navigation, data, onDelete}) => {
         </CardItem>
       )}
       <CardItem footer>
-        <Body>
-          <Text>{data.meetingId}</Text>
-        </Body>
-        <Icon name="delete" onPress={onPressDelete} />
-        <Icon name="edit" onPress={onPressEdit} />
+        <Left>
+          <Text numberOfLines={1}>ID: {data.meetingId}</Text>
+        </Left>
+        <Right style={styles.footerRight}>
+          <Icon
+            name="delete"
+            color="#d9534f"
+            onPress={onPressDelete}
+            style={styles.icon}
+          />
+          <Icon name="edit" color="green" onPress={onPressEdit} />
+        </Right>
       </CardItem>
     </Card>
   );
 };
 
 export default MeetingCard;
+
+const styles = StyleSheet.create({
+  date: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  footerRight: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  icon: {
+    marginRight: 5,
+  },
+});

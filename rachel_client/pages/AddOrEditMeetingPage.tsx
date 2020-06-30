@@ -55,6 +55,7 @@ const AddOrEditMeetingPage = ({
         });
     } else {
       // creating new meeting
+      console.log('here');
       meetingid = uuidv4();
       customAxios
         .post(
