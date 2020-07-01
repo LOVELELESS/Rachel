@@ -1,14 +1,17 @@
 import React, {useState, useContext} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, StyleSheet} from 'react-native';
 import {NotificationsPageProps} from '../types/screenTypes';
 import customAxios from '../helpers/customAxios';
 import {AuthContextType} from '../types/contextTypes';
 import {AuthContext} from '../contexts/AuthContext';
 import {deepCopy} from '../helpers/arrayUtils';
 import NotificationCard from '../components/NotificationCard';
+import {ScrollView} from 'react-native-gesture-handler';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [notifications, setNotifications] = useState<Array<Object>>([]);
   const auth: AuthContextType = useContext(AuthContext);
 
@@ -20,6 +23,7 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
           console.log(res.data);
           if (res.data.success) {
             setNotifications(res.data.notifications);
+            setIsLoading(false);
           }
         });
     }, []),
@@ -53,7 +57,26 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
       .reverse();
   };
 
-  return <View>{renderContent()}</View>;
+  return (
+    <View
+      style={{
+        ...styles.container,
+        backgroundColor: isLoading ? 'lightgrey' : 'white',
+        justifyContent: isLoading ? 'center' : 'flex-start',
+      }}>
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <ScrollView>{renderContent()}</ScrollView>
+      )}
+    </View>
+  );
 };
 
 export default NotificationsPage;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

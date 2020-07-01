@@ -35,11 +35,15 @@ const NotificationCard = ({notification}: any) => {
     <Card>
       <CardItem>
         <Body>
-          <Text>{notification.id}</Text>
           <Text>{notification.content}</Text>
           <Text>{notification.status}</Text>
-          <Text>{notification.response}</Text>
+          {notification.status !== 'PENDING' && (
+            <Text>{notification.response}</Text>
+          )}
         </Body>
+      </CardItem>
+      <CardItem footer>
+        <Text>{notification.id}</Text>
       </CardItem>
     </Card>
   );
