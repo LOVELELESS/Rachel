@@ -6,6 +6,7 @@ import {UsersPageProps} from '../types/screenTypes';
 import customAxios from '../helpers/customAxios';
 import {AuthContextType} from '../types/contextTypes';
 import {AuthContext} from '../contexts/AuthContext';
+import UserCard from '../components/UserCard';
 
 const UsersPage = ({route, navigation}: UsersPageProps) => {
   const auth: AuthContextType = useContext(AuthContext);
@@ -27,20 +28,14 @@ const UsersPage = ({route, navigation}: UsersPageProps) => {
   const renderContent = () => {
     return users.map((user, i) => {
       return (
-        <View key={i}>
-          <Text>{'<<<<<'}</Text>
-          <Text>
-            {user.displayName}, {user.role}
-          </Text>
-          <Button
-            title="configure"
-            onPress={() => {
-              setCurrUser(user);
-              setShowOverlay(true);
-            }}
-          />
-          <Text>{'<<<<<'}</Text>
-        </View>
+        <UserCard
+          user={user}
+          key={i}
+          onPress={() => {
+            setCurrUser(user);
+            setShowOverlay(true);
+          }}
+        />
       );
     });
   };
