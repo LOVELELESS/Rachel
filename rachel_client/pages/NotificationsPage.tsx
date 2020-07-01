@@ -67,7 +67,9 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
       {isLoading ? (
         <LoadingIndicator />
       ) : (
-        <ScrollView>{renderContent()}</ScrollView>
+        <ScrollView style={styles.contentContainer}>
+          {renderContent()}
+        </ScrollView>
       )}
     </View>
   );
@@ -78,5 +80,9 @@ export default NotificationsPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  contentContainer: {
+    width: '95%',
+    alignSelf: 'center',
   },
 });
