@@ -41,25 +41,27 @@ const Dashboard = ({route, navigation}: DashboardScreenProps) => {
         </View>
       );
     } else {
-      return meetings.map((meeting, i) => (
-        <MeetingCard
-          key={i}
-          navigation={navigation}
-          data={{
-            meetingTitle: meeting.title,
-            meetingDate: meeting.date,
-            meetingDescription: meeting.description,
-            meetingId: meeting.meetingid,
-            participants: meeting.participants,
-            date: meeting.date,
-          }}
-          onDelete={() => {
-            let newMeetings = deepCopy(meetings);
-            newMeetings.splice(i, 1);
-            setMeetings(newMeetings);
-          }}
-        />
-      ));
+      return meetings
+        .map((meeting, i) => (
+          <MeetingCard
+            key={i}
+            navigation={navigation}
+            data={{
+              meetingTitle: meeting.title,
+              meetingDate: meeting.date,
+              meetingDescription: meeting.description,
+              meetingId: meeting.meetingid,
+              participants: meeting.participants,
+              date: meeting.date,
+            }}
+            onDelete={() => {
+              let newMeetings = deepCopy(meetings);
+              newMeetings.splice(i, 1);
+              setMeetings(newMeetings);
+            }}
+          />
+        ))
+        .reverse(); // latest meeting created on top
     }
   };
 

@@ -6,6 +6,7 @@ import customAxios from '../helpers/customAxios';
 import {AuthContextType} from '../types/contextTypes';
 import {AuthContext} from '../contexts/AuthContext';
 import {deepCopy} from '../helpers/arrayUtils';
+import NotificationCard from '../components/NotificationCard';
 
 const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
   const [notifications, setNotifications] = useState<Array<Object>>([]);
@@ -45,46 +46,14 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
   };
 
   const renderContent = () => {
-    return notifications.map((notification, i) => {
-      if (notification.status === 'PENDING') {
-        return (
-          <View key={i}>
-            <Text>{'<<<<<<'}</Text>
-            <Text>{notification.id}</Text>
-            <Text>{notification.content}</Text>
-            <Text>{notification.status}</Text>
-            <Button
-              title="ACCEPT"
-              onPress={() => onPressResponse(i, 'ACCEPT')}
-            />
-            <Button
-              title="REJECT"
-              onPress={() => onPressResponse(i, 'REJECT')}
-            />
-            <Text>{'<<<<<<'}</Text>
-          </View>
-        );
-      } else {
-        return (
-          <View key={i}>
-            <Text>{'<<<<<<'}</Text>
-            <Text>{notification.id}</Text>
-            <Text>{notification.content}</Text>
-            <Text>{notification.status}</Text>
-            <Text>{notification.response}</Text>
-            <Text>{'<<<<<<'}</Text>
-          </View>
-        );
-      }
-    });
+    return notifications
+      .map((notification, i) => (
+        <NotificationCard notification={notification} key={i} />
+      ))
+      .reverse();
   };
 
-  return (
-    <View>
-      <Text>This is notifications page</Text>
-      {renderContent()}
-    </View>
-  );
+  return <View>{renderContent()}</View>;
 };
 
 export default NotificationsPage;
