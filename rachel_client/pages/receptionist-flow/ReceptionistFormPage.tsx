@@ -26,10 +26,7 @@ const ReceptionistFormPage = ({
       console.log('response msg received', msg.data);
       setResponse({received: true, response: msg.data.content});
       setTimeout(() => {
-        //navigation.reset({
-        //  index: 1,
-        //  routes: [{name: 'SignInPage'}, {name: 'ReceptionistWelcomePage'}]
-        //});
+        navigation.navigate('ReceptionistWelcomePage');
       }, 10000);
     });
   }, []);
@@ -70,6 +67,10 @@ const ReceptionistFormPage = ({
         value={content}
       />
       <Button title="submit" onPress={onSubmit} />
+      <Button
+        title="navigate back to welcome"
+        onPress={() => navigation.navigate('ReceptionistWelcomePage')}
+      />
     </View>
   );
 };

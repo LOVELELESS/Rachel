@@ -14,7 +14,7 @@ const ReceptionistWelcomePage = ({
     false,
   );
   const [token, setToken] = useState<string>('');
-  const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [isVerified, setIsVerified] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onPressVerifyWorkspace = () => {
@@ -136,7 +136,7 @@ const ReceptionistWelcomePage = ({
               }}
             />
             <Button
-              title="This is an unscheduled meeting"
+              title="I have an unscheduled meeting"
               onPress={() =>
                 navigation.navigate('ReceptionistFormPage', {workspaceName})
               }
