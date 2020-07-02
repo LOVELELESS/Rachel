@@ -1,6 +1,9 @@
 interface INotification {
   id: number;
-  content: string;
+  name: string;
+  email: string;
+  phoneNumber?: string;
+  description: string;
   status: "PENDING" | "ACCEPT" | "REJECT";
   response?: string;
 }

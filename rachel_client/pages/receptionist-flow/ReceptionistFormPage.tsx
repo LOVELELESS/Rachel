@@ -5,16 +5,17 @@ import {Textarea} from 'native-base';
 import {ReceptionistQrReaderPageProps} from '../../types/screenTypes';
 import customAxios from '../../helpers/customAxios';
 import messaging from '@react-native-firebase/messaging';
+import {stringify} from 'querystring';
 
 const ReceptionistFormPage = ({
   route,
   navigation,
 }: ReceptionistQrReaderPageProps) => {
   const workspaceName: string = route.params.workspaceName;
-  const [description, setDescription] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
   const [response, setResponse] = useState<Object>({
     received: false,
@@ -26,6 +27,10 @@ const ReceptionistFormPage = ({
       .subscribeToTopic(`${workspaceName}-receptionist`)
       .then(() => console.log('subscribed to receptionist topic'));
 
+    // msg.data = {
+    //  response: string,
+    //  status: string
+    //}
     messaging().onMessage((msg) => {
       console.log('response msg received', msg.data);
       setResponse({received: true, response: msg.data.content});

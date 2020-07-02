@@ -45,7 +45,10 @@ notificationRoutes.get("/", (req, res) => {
 
     req.body 
         - workspaceName : string
-        - content : string
+        - name : string
+        - email : string
+        - phoneNumber ?: string
+        - description : string
     res.data 
         - msg : string
         - success : boolean     
@@ -53,14 +56,26 @@ notificationRoutes.get("/", (req, res) => {
 notificationRoutes.post("/", (req, res) => {
   const {
     workspaceName,
-    content,
-  }: { workspaceName: string; content: string } = req.body;
+    name,
+    email,
+    phoneNumber,
+    description,
+  }: {
+    workspaceName: string;
+    name: string;
+    email: string;
+    phoneNumber?: string;
+    description: string;
+  } = req.body;
   WorkspaceModel.findOne({ workspaceName })
     .then((workspace) => {
       if (workspace) {
         const newNotification: INotification = {
           id: workspace.notifications.length,
-          content,
+          name,
+          email,
+          phoneNumber,
+          description,
           status: "PENDING",
         };
         workspace.notifications.push(newNotification);
@@ -72,13 +87,11 @@ notificationRoutes.post("/", (req, res) => {
             });
           } else {
             const message = {
-              data: {
-                type: "warning",
-                content,
-              },
+              data: {},
               notification: {
-                title: "Baisc noti",
-                body: "body of noti",
+                title: "Manual Form Submission",
+                body:
+                  "Received a manual form submission from a visitor to your office!",
               },
             };
 
@@ -141,9 +154,14 @@ notificationRoutes.post("/:formid/", (req, res) => {
     .then((workspace) => {
       if (workspace) {
         const intFormId = parseInt(formid);
+        const oldNotification = workspace.notifications[intFormId];
+
         const newNotification: INotification = {
           id: intFormId,
-          content: workspace.notifications[intFormId].content,
+          name: oldNotification.name,
+          email: oldNotification.email,
+          phoneNumber: oldNotification.phoneNumber,
+          description: oldNotification.description,
           status: finalStatus,
           response: responseToForm,
         };
@@ -158,8 +176,8 @@ notificationRoutes.post("/:formid/", (req, res) => {
           } else {
             const message = {
               data: {
-                type: "warning",
-                content: responseToForm,
+                status: finalStatus,
+                response: responseToForm,
               },
               notification: {
                 title: "Baisc noti",

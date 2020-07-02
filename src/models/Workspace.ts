@@ -51,7 +51,13 @@ const WorkspaceSchema = new Schema({
   notifications: [
     {
       id: Number,
-      content: String,
+      name: String,
+      email: String,
+      phoneNumber: {
+        type: String,
+        default: "",
+      },
+      description: String,
       status: String,
       response: String,
     },
