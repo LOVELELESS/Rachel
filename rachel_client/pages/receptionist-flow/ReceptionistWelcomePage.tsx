@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Text, Overlay, Input, Button} from 'react-native-elements';
 import {ReceptionistWelcomePageProps} from '../../types/screenTypes';
 import customAxios from '../../helpers/customAxios';
+import {View, StyleSheet} from 'react-native';
+import {Text, Overlay, Input, Button} from 'react-native-elements';
 
 const ReceptionistWelcomePage = ({
   route,

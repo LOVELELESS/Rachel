@@ -9,6 +9,7 @@ const ReceptionistQrReaderPage = ({
   navigation,
 }: ReceptionistQrReaderPageProps) => {
   const workspaceName = route.params.workspaceName;
+
   const onRead = (e) => {
     const data = e.data;
     customAxios
