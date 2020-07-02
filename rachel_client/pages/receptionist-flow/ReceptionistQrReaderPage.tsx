@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {ReceptionistQrReaderPageProps} from '../../types/screenTypes';
 import customAxios from '../../helpers/customAxios';
-import {Text, Button, Icon, Overlay} from 'react-native-elements';
 import LoadingIndicator from '../../components/LoadingIndicator';
+import {Text, Button, Icon, Overlay} from 'react-native-elements';
 import {
   QR_READER_SUCCESS_RESPONSE,
   QR_READER_FAILURE_RESPONSE,

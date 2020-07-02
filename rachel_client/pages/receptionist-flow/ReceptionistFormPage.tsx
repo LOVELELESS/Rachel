@@ -60,7 +60,6 @@ const ReceptionistFormPage = ({
           )}
         </View>
       </Overlay>
-      <Text>This is receptionist form page</Text>
       <Input
         placeholder="content"
         onChangeText={(e) => setContent(e)}
