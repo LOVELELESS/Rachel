@@ -5,6 +5,7 @@ import {Textarea} from 'native-base';
 import {ReceptionistQrReaderPageProps} from '../../types/screenTypes';
 import customAxios from '../../helpers/customAxios';
 import messaging from '@react-native-firebase/messaging';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const ReceptionistFormPage = ({
   route,
@@ -18,6 +19,7 @@ const ReceptionistFormPage = ({
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
   const [response, setResponse] = useState<Object>({
     received: false,
+    status: null,
     response: null,
   });
 
@@ -36,7 +38,11 @@ const ReceptionistFormPage = ({
     //}
     messaging().onMessage((msg) => {
       console.log('response msg received', msg.data);
-      setResponse({received: true, response: msg.data.content});
+      setResponse({
+        received: true,
+        status: msg.data.status,
+        response: msg.data.response,
+      });
       setTimeout(() => {
         navigation.navigate('ReceptionistWelcomePage');
       }, 10000);
@@ -49,12 +55,13 @@ const ReceptionistFormPage = ({
     };
   }, []);
 
-  const [timer, setTimer] = useState<number>(30);
-
   const onSubmit = () => {
     customAxios
       .post(`workspaces/${workspaceName}/notifications`, {
-        content,
+        name,
+        email,
+        phoneNumber,
+        description,
       })
       .then((res) => {
         console.log(res);
@@ -64,13 +71,29 @@ const ReceptionistFormPage = ({
       });
   };
 
+  const getStatusColor = () => {
+    switch (response.status) {
+      case 'ACCEPT':
+        return '#3d9970';
+      case 'REJECT':
+        return '#ff4136';
+    }
+  };
+
   const renderOverlayContent = () => {
     return (
       <View>
         {response.received ? (
           <>
-            <Text>{response.response}</Text>
-            <Text>Returning to home page in {timer}s..</Text>
+            <Text
+              style={{
+                ...styles.overlayStatusText,
+                backgroundColor: getStatusColor(),
+              }}>
+              {response.status}
+            </Text>
+            <Text>Response: {response.response}</Text>
+            <Text>Returning to Welcome Page in 10s...</Text>
           </>
         ) : (
           <Text>Waiting for response...</Text>
@@ -82,7 +105,7 @@ const ReceptionistFormPage = ({
   return (
     <View style={styles.container}>
       <Overlay isVisible={showOverlay}>{renderOverlayContent()}</Overlay>
-      <View>
+      <ScrollView>
         <Input
           label="Your Name"
           leftIcon={{name: 'face'}}
@@ -116,7 +139,7 @@ const ReceptionistFormPage = ({
           onChangeText={(e) => setDescription(e)}
           value={description}
         />
-      </View>
+      </ScrollView>
       <Button
         title="Submit"
         icon={{name: 'check-circle', color: 'white'}}
@@ -144,5 +167,9 @@ const styles = StyleSheet.create({
   submitButton: {
     paddingHorizontal: 10,
     paddingBottom: 50,
+  },
+  overlayStatusText: {
+    color: 'white',
+    padding: 5,
   },
 });

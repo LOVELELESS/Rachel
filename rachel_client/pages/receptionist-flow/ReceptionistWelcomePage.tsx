@@ -14,7 +14,7 @@ const ReceptionistWelcomePage = ({
     false,
   );
   const [token, setToken] = useState<string>('');
-  const [isVerified, setIsVerified] = useState<boolean>(true);
+  const [isVerified, setIsVerified] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onPressVerifyWorkspace = () => {
@@ -40,6 +40,8 @@ const ReceptionistWelcomePage = ({
         console.log(res);
         if (res.data.success) {
           setIsVerified(true);
+          setIsLoading(false);
+        } else {
           setIsLoading(false);
         }
       });

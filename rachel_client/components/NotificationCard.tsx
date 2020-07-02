@@ -27,9 +27,13 @@ const NotificationCard = ({notification, onPressResponse}) => {
           <Text style={styles.notificationContent}>
             Visitor's email: {notification.email}
           </Text>
-          <Text style={styles.notificationContent}>
-            Visitor's contact number: {notification.phoneNumber}
-          </Text>
+          {notification.phoneNumber ? (
+            <Text style={styles.notificationContent}>
+              Visitor's contact number: ${notification.phoneNumber}
+            </Text>
+          ) : (
+            <></>
+          )}
         </Body>
       </CardItem>
       <CardItem>
@@ -103,7 +107,6 @@ const styles = StyleSheet.create({
   statusText: {
     padding: 5,
   },
-
   responseText: {
     fontWeight: 'bold',
   },
