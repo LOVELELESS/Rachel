@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {Text, Overlay, Input, Button} from 'react-native-elements';
 import {ReceptionistWelcomePageProps} from '../../types/screenTypes';
 import customAxios from '../../helpers/customAxios';
@@ -70,25 +70,73 @@ const ReceptionistWelcomePage = ({
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Overlay isVisible={!isVerified}>
         <View>{renderOverlayContent()}</View>
       </Overlay>
-      <Text>This is the receptionist wwlcome page</Text>
-      <Button
-        title="I have a scheduled meeting"
-        onPress={() =>
-          navigation.navigate('ReceptionistQrReaderPage', {workspaceName})
-        }
-      />
-      <Button
-        title="This is an unscheduled meeting"
-        onPress={() =>
-          navigation.navigate('ReceptionistFormPage', {workspaceName})
-        }
-      />
+      <View>
+        <Text h3 style={styles.title}>
+          Welcome to {workspaceName}'s office!
+        </Text>
+        <Text h4 style={styles.subTitle}>
+          How can I help you?
+        </Text>
+      </View>
+
+      <View>
+        <Text h4 style={styles.subTitle}>
+          Please choose from one of the options below:
+        </Text>
+      </View>
+      <View>
+        <Button
+          title="I have a scheduled meeting"
+          onPress={() =>
+            navigation.navigate('ReceptionistQrReaderPage', {workspaceName})
+          }
+          style={styles.button}
+          titleStyle={styles.buttonText}
+          icon={{
+            name: 'event-available',
+            color: 'white',
+          }}
+        />
+        <Button
+          title="This is an unscheduled meeting"
+          onPress={() =>
+            navigation.navigate('ReceptionistFormPage', {workspaceName})
+          }
+          style={styles.button}
+          titleStyle={styles.buttonText}
+          icon={{
+            name: 'event-busy',
+            color: 'white',
+          }}
+        />
+      </View>
     </View>
   );
 };
 
 export default ReceptionistWelcomePage;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-around',
+  },
+  title: {
+    textAlign: 'center',
+    padding: 5,
+  },
+  subTitle: {
+    textAlign: 'center',
+    padding: 5,
+  },
+  button: {
+    padding: 20,
+  },
+  buttonText: {
+    fontSize: 24,
+  },
+});
