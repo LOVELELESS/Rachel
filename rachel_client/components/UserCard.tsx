@@ -26,17 +26,26 @@ const UserCard = ({user, getAllUsers}) => {
   const renderOverlayContent = () => {
     return (
       <>
-        <Text>{user.displayName}</Text>
-        <Text>{user.email}</Text>
+        <Text style={styles.insideOverlayConfigureText}>
+          Configuring Role for:{' '}
+        </Text>
+        <Text style={styles.userText} numberOfLines={2}>
+          {user.displayName} ({user.email})
+        </Text>
         {user.role !== 'ADMIN' && (
           <>
-            <Button title="make admin" onPress={() => changeRole('ADMIN')} />
+            <Button
+              style={styles.insideOverlayButton}
+              title="Set as Admin"
+              onPress={() => changeRole('ADMIN')}
+            />
           </>
         )}
         {user.role !== 'FALLBACK' && (
           <>
             <Button
-              title="make fallback"
+              style={styles.insideOverlayButton}
+              title="Set as Fallback"
               onPress={() => changeRole('FALLBACK')}
             />
           </>
@@ -44,12 +53,20 @@ const UserCard = ({user, getAllUsers}) => {
         {user.role !== 'EMPLOYEE' && (
           <>
             <Button
-              title="make employee"
+              style={styles.insideOverlayButton}
+              title="Set as Employee"
               onPress={() => changeRole('EMPLOYEE')}
             />
           </>
         )}
-        <Button title="ok" onPress={() => setShowOverlay(false)} />
+        <Button
+          style={styles.insideOverlayButton}
+          title="cancel"
+          type="clear"
+          titleStyle={{color: 'red'}}
+          icon={{name: 'close', color: 'red'}}
+          onPress={() => setShowOverlay(false)}
+        />
       </>
     );
   };
@@ -119,6 +136,14 @@ const styles = StyleSheet.create({
   },
   roleText: {
     color: 'white',
+    padding: 5,
+  },
+  insideOverlayConfigureText: {
+    fontSize: 18,
+    textDecorationLine: 'underline',
+    paddingBottom: 5,
+  },
+  insideOverlayButton: {
     padding: 5,
   },
 });

@@ -1,13 +1,12 @@
 import React, {useState, useContext} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {View, Text, StyleSheet} from 'react-native';
-import {Button, Overlay} from 'react-native-elements';
-import {UsersPageProps} from '../types/screenTypes';
-import customAxios from '../helpers/customAxios';
 import {AuthContextType} from '../types/contextTypes';
 import {AuthContext} from '../contexts/AuthContext';
-import UserCard from '../components/UserCard';
+import {UsersPageProps} from '../types/screenTypes';
+import customAxios from '../helpers/customAxios';
+import {View, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import UserCard from '../components/UserCard';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 const UsersPage = ({route, navigation}: UsersPageProps) => {
@@ -21,7 +20,9 @@ const UsersPage = ({route, navigation}: UsersPageProps) => {
       .get(`workspaces/${auth.userSettings.workspaceName}/users`)
       .then((res) => {
         console.log(res.data);
-        setUsers(res.data.users);
+        setUsers(
+          res.data.users.filter((user) => user.userid !== auth.user?.uid),
+        );
       })
       .then(() => setIsLoading(false));
   };
@@ -39,7 +40,7 @@ const UsersPage = ({route, navigation}: UsersPageProps) => {
   };
 
   const backgroundColor = isLoading ? 'lightgrey' : 'white';
-  const justifyContent = isLoading ? 'center' : '';
+  const justifyContent = isLoading ? 'center' : 'flex-start';
 
   return (
     <View style={{...styles.container, backgroundColor, justifyContent}}>
