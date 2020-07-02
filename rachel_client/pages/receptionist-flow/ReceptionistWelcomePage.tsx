@@ -15,20 +15,23 @@ const ReceptionistWelcomePage = ({
   );
   const [token, setToken] = useState<string>('');
   const [isVerified, setIsVerified] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onPressVerifyWorkspace = () => {
+    setIsLoading(true);
     customAxios
       .post(`workspaces/${workspaceName}/receptionist/verify`)
       .then((res) => {
         console.log(res);
         if (res.data.success) {
           setIsWorkspaceVerified(true);
+          setIsLoading(false);
         }
       });
   };
 
   const onPressCheckToken = () => {
+    setIsLoading(true);
     customAxios
       .post(`workspaces/${workspaceName}/receptionist/check_otp_token`, {
         token,
@@ -37,11 +40,16 @@ const ReceptionistWelcomePage = ({
         console.log(res);
         if (res.data.success) {
           setIsVerified(true);
+          setIsLoading(false);
         }
       });
   };
 
   const renderOverlayContent = () => {
+    if (isLoading) {
+      return <LoadingIndicator />;
+    }
+
     return isWorkspaceVerified ? (
       <View>
         <Text h4 style={styles.overlayTitle}>
@@ -93,14 +101,13 @@ const ReceptionistWelcomePage = ({
   };
 
   return (
-    <View style={styles.container}>
-      <Overlay isVisible={!isVerified}>
-        <View>{renderOverlayContent()}</View>
-      </Overlay>
-      {isLoading ? (
-        <LoadingIndicator />
+    <>
+      {!isVerified ? (
+        <Overlay isVisible={!isVerified}>
+          <View>{renderOverlayContent()}</View>
+        </Overlay>
       ) : (
-        <>
+        <View style={styles.container}>
           <View>
             <Text h3 style={styles.title}>
               Welcome to {workspaceName}'s office!
@@ -141,9 +148,9 @@ const ReceptionistWelcomePage = ({
               }}
             />
           </View>
-        </>
+        </View>
       )}
-    </View>
+    </>
   );
 };
 
