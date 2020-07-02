@@ -1,108 +1,67 @@
 import React, {useState, useContext} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {Button, Overlay} from 'react-native-elements';
 import {UsersPageProps} from '../types/screenTypes';
 import customAxios from '../helpers/customAxios';
 import {AuthContextType} from '../types/contextTypes';
 import {AuthContext} from '../contexts/AuthContext';
 import UserCard from '../components/UserCard';
+import {ScrollView} from 'react-native-gesture-handler';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 const UsersPage = ({route, navigation}: UsersPageProps) => {
   const auth: AuthContextType = useContext(AuthContext);
   const [users, setUsers] = useState<Array<Object>>([]);
-  const [showOverlay, setShowOverlay] = useState<boolean>(false);
-  const [currUser, setCurrUser] = useState<Object>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const getAllUsers = async () => {
+    setIsLoading(true);
+    return customAxios
+      .get(`workspaces/${auth.userSettings.workspaceName}/users`)
+      .then((res) => {
+        console.log(res.data);
+        setUsers(res.data.users);
+      })
+      .then(() => setIsLoading(false));
+  };
 
   useFocusEffect(
     React.useCallback(() => {
-      customAxios
-        .get(`workspaces/${auth.userSettings.workspaceName}/users`)
-        .then((res) => {
-          console.log(res.data);
-          setUsers(res.data.users);
-        });
+      getAllUsers();
     }, []),
   );
 
   const renderContent = () => {
     return users.map((user, i) => {
-      return (
-        <UserCard
-          user={user}
-          key={i}
-          onPress={() => {
-            setCurrUser(user);
-            setShowOverlay(true);
-          }}
-        />
-      );
+      return <UserCard user={user} key={i} getAllUsers={getAllUsers} />;
     });
   };
 
-  const changeRole = (newRole: string) => {
-    customAxios
-      .put(
-        `workspaces/${auth.userSettings.workspaceName}/users/${currUser.userid}/roles`,
-        {
-          role: newRole,
-        },
-      )
-      .then((res) => console.log(res));
-  };
-
-  const renderOverlayContent = () => {
-    if (showOverlay) {
-      return (
-        <>
-          <Text>This is overlay</Text>
-          <Text>{currUser.displayName}</Text>
-          <Text>{currUser.email}</Text>
-          {currUser.role === 'EMPLOYEE' && (
-            <>
-              <Button title="make admin" onPress={() => changeRole('ADMIN')} />
-              <Button
-                title="make fallback"
-                onPress={() => changeRole('FALLBACK')}
-              />
-            </>
-          )}
-          {currUser.role === 'FALLBACK' && (
-            <>
-              <Button title="make admin" onPress={() => changeRole('ADMIN')} />
-              <Button
-                title="make employee"
-                onPress={() => changeRole('EMPLOYEE')}
-              />
-            </>
-          )}
-          {currUser.role === 'ADMIN' && (
-            <>
-              <Button
-                title="make employee"
-                onPress={() => changeRole('EMPLOYEE')}
-              />
-              <Button
-                title="make fallback"
-                onPress={() => changeRole('FALLBACK')}
-              />
-            </>
-          )}
-          <Button title="ok" onPress={() => setShowOverlay(false)} />
-        </>
-      );
-    } else {
-      return <></>;
-    }
-  };
+  const backgroundColor = isLoading ? 'lightgrey' : 'white';
+  const justifyContent = isLoading ? 'center' : '';
 
   return (
-    <View>
-      <Overlay isVisible={showOverlay}>{renderOverlayContent()}</Overlay>
-      <Text>This is the users page</Text>
-      {renderContent()}
+    <View style={{...styles.container, backgroundColor, justifyContent}}>
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <ScrollView style={styles.contentContainer}>
+          {renderContent()}
+        </ScrollView>
+      )}
     </View>
   );
 };
 
 export default UsersPage;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  contentContainer: {
+    width: '95%',
+    alignSelf: 'center',
+  },
+});
