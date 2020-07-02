@@ -5,7 +5,6 @@ import {Textarea} from 'native-base';
 import {ReceptionistQrReaderPageProps} from '../../types/screenTypes';
 import customAxios from '../../helpers/customAxios';
 import messaging from '@react-native-firebase/messaging';
-import {stringify} from 'querystring';
 
 const ReceptionistFormPage = ({
   route,
@@ -27,6 +26,10 @@ const ReceptionistFormPage = ({
       .subscribeToTopic(`${workspaceName}-receptionist`)
       .then(() => console.log('subscribed to receptionist topic'));
 
+    messaging()
+      .unsubscribeFromTopic(`${workspaceName}-fallback`)
+      .then(() => console.log('unsubscribed from fallback topic!'));
+
     // msg.data = {
     //  response: string,
     //  status: string
@@ -38,6 +41,12 @@ const ReceptionistFormPage = ({
         navigation.navigate('ReceptionistWelcomePage');
       }, 10000);
     });
+
+    return () => {
+      messaging()
+        .unsubscribeFromTopic(`${workspaceName}-receptionist`)
+        .then(() => console.log('unsubscribed from receptionist topic!'));
+    };
   }, []);
 
   const [timer, setTimer] = useState<number>(30);

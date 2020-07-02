@@ -38,6 +38,12 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
             workspaceName: res.data.workspaceName,
           });
 
+          messaging()
+            .unsubscribeFromTopic(
+              `${auth.userSettings.workspaceName}-receptionist`,
+            )
+            .then(() => console.log('unsubscribed from receptionist topic!'));
+
           if (res.data.role === 'ADMIN' || res.data.role === 'FALLBACK') {
             messaging()
               .subscribeToTopic(`${res.data.workspaceName}-fallback`)
@@ -58,6 +64,7 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
               });
 
             messaging().onMessage((msg) => {
+              console.log(msg);
               console.log('received manual form submission');
               Alert.alert('received manual form submission');
             });
@@ -67,6 +74,12 @@ const HomePage = ({route, navigation}: HomePageScreenProps) => {
         }
         setIsLoading(false);
       });
+
+    return () => {
+      messaging()
+        .unsubscribeFromTopic(`${auth.userSettings.workspaceName}-fallback`)
+        .then(() => console.log('unsubscribed from fallback topic!'));
+    };
   }, []);
 
   const onPressLinkWorkspace = () => {
