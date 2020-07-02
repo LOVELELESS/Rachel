@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Card, CardItem, Body} from 'native-base';
-import {Text} from 'react-native-elements';
+import {Text, Button, Input} from 'react-native-elements';
 
 const NotificationCard = ({notification}: any) => {
   /*
@@ -46,7 +46,23 @@ const NotificationCard = ({notification}: any) => {
     <Card>
       <CardItem>
         <Body>
-          <Text style={styles.notificationContent}>{notification.content}</Text>
+          <Text style={styles.notificationContent}>
+            Visitor's name: {notification.name}
+          </Text>
+          <Text style={styles.notificationContent}>
+            Visitor's email: {notification.email}
+          </Text>
+          <Text style={styles.notificationContent}>
+            Visitor's contact number: {notification.phoneNumber}
+          </Text>
+        </Body>
+      </CardItem>
+      <CardItem>
+        <Body>
+          <Text style={styles.notificationContent}>Purpose for meeting:</Text>
+          <Text style={styles.notificationContent}>
+            {notification.description}
+          </Text>
         </Body>
       </CardItem>
       <CardItem>
@@ -59,8 +75,32 @@ const NotificationCard = ({notification}: any) => {
             }}>
             {notification.status}
           </Text>
-          {notification.status !== 'PENDING' && (
-            <Text style={styles.responseText}>{notification.response}</Text>
+        </Body>
+      </CardItem>
+      <CardItem>
+        <Body>
+          {notification.status === 'PENDING' ? (
+            <>
+              <Input
+                label="Custom Response"
+                placeholder="I accept/reject your unscheduled meeting request"
+              />
+              <View style={styles.responseButtonContainer}>
+                <Button
+                  title="Accept"
+                  icon={{name: 'check-circle', color: 'white'}}
+                />
+                <Button
+                  title="Reject"
+                  buttonStyle={styles.rejectButton}
+                  icon={{name: 'close', color: 'white'}}
+                />
+              </View>
+            </>
+          ) : (
+            <Text style={styles.responseText}>
+              Response: {notification.response}
+            </Text>
           )}
         </Body>
       </CardItem>
@@ -80,8 +120,17 @@ const styles = StyleSheet.create({
   statusText: {
     padding: 5,
   },
+
   responseText: {
     fontWeight: 'bold',
+  },
+  responseButtonContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  rejectButton: {
+    backgroundColor: '#d9534f',
   },
   id: {
     fontWeight: '300',

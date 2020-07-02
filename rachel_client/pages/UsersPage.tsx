@@ -6,6 +6,7 @@ import {UsersPageProps} from '../types/screenTypes';
 import customAxios from '../helpers/customAxios';
 import {View, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import {Text} from 'react-native-elements';
 import UserCard from '../components/UserCard';
 import LoadingIndicator from '../components/LoadingIndicator';
 
@@ -34,6 +35,9 @@ const UsersPage = ({route, navigation}: UsersPageProps) => {
   );
 
   const renderContent = () => {
+    if (users.length === 0) {
+      return <Text h4>No Users found!</Text>;
+    }
     return users.map((user, i) => {
       return <UserCard user={user} key={i} getAllUsers={getAllUsers} />;
     });

@@ -179,10 +179,6 @@ notificationRoutes.post("/:formid/", (req, res) => {
                 status: finalStatus,
                 response: responseToForm,
               },
-              notification: {
-                title: "Baisc noti",
-                body: "body of noti",
-              },
             };
 
             admin
