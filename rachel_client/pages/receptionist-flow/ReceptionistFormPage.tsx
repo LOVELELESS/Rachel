@@ -26,7 +26,10 @@ const ReceptionistFormPage = ({
       console.log('response msg received', msg.data);
       setResponse({received: true, response: msg.data.content});
       setTimeout(() => {
-        navigation.popToTop();
+        //navigation.reset({
+        //  index: 1,
+        //  routes: [{name: 'SignInPage'}, {name: 'ReceptionistWelcomePage'}]
+        //});
       }, 10000);
     });
   }, []);
