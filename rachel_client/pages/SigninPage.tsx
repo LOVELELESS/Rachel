@@ -39,7 +39,7 @@ const SigninPage = ({route, navigation}: SigninPageScreenProps) => {
           raised
         />
         <Text h3 style={styles.subtitle2}>
-          Launch E-Receptionist!
+          Launch!
         </Text>
       </TouchableOpacity>
       <View>
