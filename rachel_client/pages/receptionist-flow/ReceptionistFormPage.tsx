@@ -11,7 +11,10 @@ const ReceptionistFormPage = ({
   navigation,
 }: ReceptionistQrReaderPageProps) => {
   const workspaceName: string = route.params.workspaceName;
-  const [content, setContent] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
   const [response, setResponse] = useState<Object>({
     received: false,
@@ -63,23 +66,43 @@ const ReceptionistFormPage = ({
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Overlay isVisible={showOverlay}>{renderOverlayContent()}</Overlay>
-      <Input label="Your Name" />
-      <Input label="Your E-Mail Address" />
-      <Input label="Your Contact Number (Optional)" />
-      <Text style={styles.descriptionTitle}>
-        Describe the purpose of your visit:
-      </Text>
-      <Textarea
-        rowSpan={10}
-        bordered
-        underline
-        placeholder="Urgent meeting regarding product A with Mr John Doe..."
-        style={styles.textArea}
-        onChangeText={(e) => setContent(e)}
-        value={content}
-      />
+      <View>
+        <Input
+          label="Your Name"
+          leftIcon={{name: 'face'}}
+          placeholder="John Tan"
+          onChangeText={(e) => setName(e)}
+          value={name}
+        />
+        <Input
+          label="Your E-Mail Address"
+          leftIcon={{name: 'mail'}}
+          placeholder="john.tan@gmail.com"
+          onChangeText={(e) => setEmail(e)}
+          value={email}
+        />
+        <Input
+          label="Your Contact Number (Optional)"
+          leftIcon={{name: 'phone'}}
+          placeholder="91234567"
+          onChangeText={(e) => setPhoneNumber(e)}
+          value={phoneNumber}
+        />
+        <Text style={styles.descriptionTitle}>
+          Describe the purpose of your visit:
+        </Text>
+        <Textarea
+          rowSpan={10}
+          bordered
+          underline
+          placeholder="Urgent meeting regarding product A with Mr John Doe..."
+          style={styles.textArea}
+          onChangeText={(e) => setDescription(e)}
+          value={description}
+        />
+      </View>
       <Button
         title="Submit"
         icon={{name: 'check-circle', color: 'white'}}
@@ -93,6 +116,10 @@ const ReceptionistFormPage = ({
 export default ReceptionistFormPage;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
   descriptionTitle: {
     fontSize: 20,
     padding: 10,
@@ -101,6 +128,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   submitButton: {
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 50,
   },
 });
