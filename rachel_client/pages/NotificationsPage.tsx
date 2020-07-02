@@ -30,12 +30,12 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
     }, []),
   );
 
-  const onPressResponse = (formid, status) => {
+  const onPressResponse = (formid, status, response) => {
     customAxios
       .post(
         `workspaces/${auth.userSettings.workspaceName}/notifications/${formid}`,
         {
-          responseToForm: 'response test',
+          responseToForm: response,
           finalStatus: status,
         },
       )
@@ -43,7 +43,7 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
         console.log(res);
         if (res.data.success) {
           const newNotifications = deepCopy(notifications);
-          newNotifications[formid].response = 'response test';
+          newNotifications[formid].response = response;
           newNotifications[formid].status = status;
           setNotifications(newNotifications);
         }
@@ -56,7 +56,11 @@ const NotificationsPage = ({route, navigation}: NotificationsPageProps) => {
     }
     return notifications
       .map((notification, i) => (
-        <NotificationCard notification={notification} key={i} />
+        <NotificationCard
+          notification={notification}
+          key={i}
+          onPressResponse={onPressResponse}
+        />
       ))
       .reverse();
   };

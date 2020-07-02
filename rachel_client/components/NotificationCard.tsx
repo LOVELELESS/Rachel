@@ -1,35 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Card, CardItem, Body} from 'native-base';
 import {Text, Button, Input} from 'react-native-elements';
 
-const NotificationCard = ({notification}: any) => {
-  /*
-  if (notification.status === 'PENDING') {
-    return (
-      <View>
-        <Text>{'<<<<<<'}</Text>
-        <Text>{notification.id}</Text>
-        <Text>{notification.content}</Text>
-        <Text>{notification.status}</Text>
-        <Button title="ACCEPT" onPress={() => onPressResponse(i, 'ACCEPT')} />
-        <Button title="REJECT" onPress={() => onPressResponse(i, 'REJECT')} />
-        <Text>{'<<<<<<'}</Text>
-      </View>
-    );
-  } else {
-    return (
-      <View>
-        <Text>{'<<<<<<'}</Text>
-        <Text>{notification.id}</Text>
-        <Text>{notification.content}</Text>
-        <Text>{notification.status}</Text>
-        <Text>{notification.response}</Text>
-        <Text>{'<<<<<<'}</Text>
-      </View>
-    );
-  }
-  */
+const NotificationCard = ({notification, onPressResponse}) => {
+  const [response, setResponse] = useState<string>('');
 
   const getStatusColor = () => {
     switch (notification.status) {
@@ -84,22 +59,30 @@ const NotificationCard = ({notification}: any) => {
               <Input
                 label="Custom Response"
                 placeholder="I accept/reject your unscheduled meeting request"
+                onChangeText={(e) => setResponse(e)}
+                value={response}
               />
               <View style={styles.responseButtonContainer}>
                 <Button
                   title="Accept"
                   icon={{name: 'check-circle', color: 'white'}}
+                  onPress={() =>
+                    onPressResponse(notification.id, 'ACCEPT', response)
+                  }
                 />
                 <Button
                   title="Reject"
                   buttonStyle={styles.rejectButton}
                   icon={{name: 'close', color: 'white'}}
+                  onPress={() =>
+                    onPressResponse(notification.id, 'REJECT', response)
+                  }
                 />
               </View>
             </>
           ) : (
             <Text style={styles.responseText}>
-              Response: {notification.response}
+              Sent Response: {notification.response}
             </Text>
           )}
         </Body>
