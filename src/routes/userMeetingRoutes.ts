@@ -328,11 +328,27 @@ userMeetingRoutes.post("/:meetingid/send_email", (req, res) => {
               `../images/${workspaceName}-${meetingid}-${meeting.title}.png`
             );
 
+            const renderReadableDate = () => {
+              const dateStr = meeting.date;
+              const date = new Date(dateStr);
+              let hr = date.getHours().toString();
+              if (hr.length < 2) {
+                hr = "0" + hr;
+              }
+              let min = date.getMinutes().toString();
+              if (min.length < 2) {
+                min = "0" + min;
+              }
+              return `${date.toLocaleDateString()}, ${hr}${min}`;
+            };
+
             const data = {
-              from: `No-Reply-${workspaceName} <NoReply@mg.${workspaceName}.com>`,
+              from: `NoReply-${workspaceName} <NoReply-${workspaceName}@rachel.raysonkoh.com>`,
               to: participantsEmailStr,
               subject: `Confirmation of meeting ${meeting.title}`,
-              text: `Description: ${meeting.description}`,
+              text: `Description: ${
+                meeting.description
+              } Meeting is set on ${renderReadableDate()}.`,
               attachment: qrcodeFilepath,
             };
 

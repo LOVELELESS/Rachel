@@ -110,7 +110,7 @@ receptionistRoutes.post("/verify", (req, res) => {
 
         const adminEmailsStr = adminEmails.join(",");
         const data = {
-          from: `No-Reply-${workspaceName} <NoReply@mg.${workspaceName}.com>`,
+          from: `NoReply-${workspaceName} <NoReply-${workspaceName}@rachel.raysonkoh.com>`,
           to: adminEmailsStr,
           subject: `OTP for launching E-Receptionist`,
           text: `Token: ${token}`,
