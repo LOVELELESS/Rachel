@@ -309,8 +309,13 @@ userMeetingRoutes.post("/:meetingid/send_email", (req, res) => {
 
         const participantsEmailStr: string = participantsEmailArr.join(", ");
 
+        const qrcodeFilepath = path.join(
+          __dirname,
+          `../images/${workspaceName}-${meetingid}-${meeting.title}.png`
+        );
+
         qrcode.toFile(
-          `src/images/${workspaceName}-${meetingid}-${meeting.title}.png`,
+          qrcodeFilepath,
           JSON.stringify({
             qrCodeWorkspaceName: workspaceName,
             qrCodeMeetingId: meetingid,
@@ -322,11 +327,6 @@ userMeetingRoutes.post("/:meetingid/send_email", (req, res) => {
                 success: false,
               });
             }
-
-            const qrcodeFilepath = path.join(
-              __dirname,
-              `../images/${workspaceName}-${meetingid}-${meeting.title}.png`
-            );
 
             const renderReadableDate = () => {
               const dateStr = meeting.date;
