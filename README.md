@@ -19,13 +19,22 @@ This project was actually motivated by my previous internship experience. There 
 ## Download App
 
 [Android APK](./release/app-universal-release.apk.zip)
-<a href='./release/app-universal-release.apk.zip' download>Download Android APK</a>
 
 Since I do not have an Apple Developer Account, I am unable to publish to the App Store. I have tested and the app is working on IOS devices.
 
 ## Screenshots
 
-![Example screenshot](./img/screenshot.png)
+![Receptionist Welcome](./release/resize-screenshots/rsz_receptionistwelcome.png)
+![Receptionist QR Code Scanner](./release/resize-screenshots/rsz_receptionistqrcodescan.png)
+![Receptionist Manual Form](./release/resize-screenshots/rsz_receptionistmanualform.png)
+![Receptionist Waiting for Response from FALLBACK Employee](./release/resize-screenshots/rsz_receptionistwaitresponse.png)
+![Receptionist Render FALLBACK Employee's Response](./release/resize-screenshots/rsz_receptionistrenderresponse.png)
+
+![Sign-in / Launch E-Receptionist Page](./release/resize-screenshots/rsz_signin.png)
+![Dashboard Page](./release/resize-screenshots/rsz_dashboard.png)
+![Add / Edit Meetings Form](./release/resize-screenshots/rsz_addoreditmeetings.png)
+![Notifications Page](./release/resize-screenshots/rsz_notifications.png)
+![User Roles Page](./release/resize-screenshots/rsz_userroles.png)
 
 ## Technologies
 
