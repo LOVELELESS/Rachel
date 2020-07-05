@@ -18,7 +18,7 @@ This project was actually motivated by my previous internship experience. There 
 
 ## Download App
 
-[Android APK](./release/app-universal-release.apk)
+[Android APK](./release/app-universal-release.apk.zip)
 
 Since I do not have an Apple Developer Account, I am unable to publish to the App Store. I have tested and the app is working on IOS devices.
 
